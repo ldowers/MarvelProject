@@ -1,0 +1,15 @@
+   body {
+  	background: url("images/marvel-bg.jpg");
+  }
+
+.search-box {
+    margin: 100px 0 50px;
+    padding: 50px 30px 50px;
+    border: 8px solid #fff;
+    box-shadow: 5px 5px 2px;
+    background: #827979;
+}
+
+#search-input {
+
+}
