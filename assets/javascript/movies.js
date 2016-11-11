@@ -1,37 +1,43 @@
-// Firebase
-
-// Load Firebase with data
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyDvsjGzJ66U8aIrW1K15vXsLIKh4IS8AS8",
+	authDomain: "marvel-favorites.firebaseapp.com",
+	databaseURL: "https://marvel-favorites.firebaseio.com",
+	storageBucket: "marvel-favorites.appspot.com",
+	messagingSenderId: "408212986746"
+};
+firebase.initializeApp(config);
 
 // Variables
-var characterArray = ["Iron Man", "Thor", "Captain America"];
-var movieArray =
-[{
-	name: "Iron Man",
-	movies: ["Iron Man", "Iron Man 2", "Iron Man 3", "The Avengers", "Avengers: Age of Ultron", "Captain America: Civil War"]
-},
-{
-	name: "Thor",
-	movies: ["Thor", "Thor: The Dark World", "The Avengers"]
-},
-{
-	name: "Captain America",
-	movies: ["Captain America", "The Avengers", "Captain America: The Winter Soldier", "Captain America: Civil War"]
-}];
+var database = firebase.database();
+var moviesRef = database.ref("/movies");
+var movieObject = "";
+var movieArray = [];
+var characterName = "";
 
-// Event Handlers
-$('#findMovie').on('click', function(){
+// Functions
+function getMovies(name) {
+	if (movieObject != "") {
+		var result = [];
 
-	var userInput = $('#movie-input').val();
-	var index = -1;
-	
-	index = characterArray.indexOf(userInput);
+		for (var i = 0; i < movieObject.val().length; i++) {
 
-	if (index >= 0) {
+			if (movieObject.child(i).val().characters.indexOf(name) >= 0) {
+				result.push(movieObject.child(i).val().title);
+			}
+		};
+
+		return result;
+	}
+};
+
+function displayMovies() {
+	if (movieArray != []) {
 
 		$('#moviesView').empty();
 
-		for (i=0; i<movieArray[index].movies.length; i++) {
-			var movie = movieArray[index].movies[i];
+		for (i=0; i<movieArray.length; i++) {
+			var movie = movieArray[i];
 			var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
 			
 			$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
@@ -55,6 +61,25 @@ $('#findMovie').on('click', function(){
 	else {
 		$('#moviesView').html("No movies found");
 	}
+};
+
+// Database Reference Handlers
+moviesRef.on("value", function(snapshot) {
+	if (snapshot.exists()) {
+		movieObject = snapshot;
+	}
+});
+
+// Event Handlers
+$('#findMovie').on('click', function(){
+
+	characterName = $('#movie-input').val();
+
+	movieArray = getMovies(characterName);
+
+	console.log(movieArray);
+
+	displayMovies();
 
 	return false;
 });
