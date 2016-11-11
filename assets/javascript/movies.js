@@ -36,38 +36,18 @@ $('#findMovie').on('click', function(){
 			
 			$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
 
-				// Creates a generic div to hold the movie
-				var movieDiv = $('<div class="movie">');
-
-				// Displays the rrating
-				movieDiv.append($('<p>').html("Rating: " + response.Rated));
-
-				// Retrieves the release year
-				var released = response.Released;
-
-				// Creates an element to hold the release year
-				var pTwo = $('<p>').text( "Released: " + released);
-
-				// Displays the release year
-				movieDiv.append(pTwo);
-
-				// Retrieves the plot
-				var plot = response.Plot;
-
-				// Creates an element to hold the plot
-				var pThree = $('<p>').text( "Plot: " + plot);
-
-				// Appends the plot
-				movieDiv.append(pThree);
-
-				// Creates an element to hold the image 
-				var image = $('<img>').attr("src", response.Poster);
-
-				// Appends the image
-				movieDiv.append(image);
-
-				// Puts the entire Movie after the previous movies.
-				$('#moviesView').append(movieDiv);
+				var tr;
+				tr = $('<tr/>');
+				tr.append("<td><img src=" + response.Poster + " width='200' height='297'></td>");
+				tr.append("<td>" + response.Title + "</td>");
+				tr.append("<td>" + response.Year + "</td>");
+				tr.append("<td>" + response.Rated + "</td>");
+				tr.append("<td>" + response.Runtime + "</td>");
+				tr.append("<td>" + response.Genre + "</td>");
+				tr.append("<td>" + response.Director + "</td>");
+				tr.append("<td>" + response.Actors + "</td>");
+				tr.append("<td>" + response.Plot + "</td>");
+				$('#moviesView').append(tr);
 			});
 
 		}
