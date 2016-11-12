@@ -1,0 +1,63 @@
+body{
+	background-image: url("../images/escheresque_ste.png");
+}
+
+.background {
+	height: 400px;
+	width: 100%;
+	position: relative;
+}
+
+.row1 {
+	text-align: center;
+	margin-left: 0px
+}
+
+.poster {
+	position: absolute;
+	top: 30px; right: 70%;
+	width: 216px;
+	height: 324px;
+}
+
+.desc {
+	float: right;
+	position: absolute;
+	top: 30px;
+	right: 15%;
+	padding: 10px;
+	width: 50%;
+	text-align: left;
+}
+
+.char {
+	width: 90px;
+	height: 90px;
+	border-radius: 50%;
+	margin: 20px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.price {
+	float: right;
+}
+
+.div-char:hover {
+	background: #AADBF4;
+}
+
+.div-char {
+	float: left;
+}
+
+.characters {
+	padding: 0px;
+	margin: 0px;
+	overflow: auto;
+	padding-bottom: 10px;
+}
+
+.purchase {
+	position: absolute;
+}
