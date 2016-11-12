@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>My Marvel Page</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css">
+</head>
+<body>
+
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Ritu Dubey</a>
+
+
+
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+
+				<ul class="nav navbar-nav navbar-right">
+
+
+
+					<li><a href="https://www.facebook.com">FB</a></li>
+					<li><a href="https://twitter.com">Twitter</a></li>
+					<li><a href="https://www.youtube.com">YouTube</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- <form id="movie-form"> -->
+				<div class="form-group well">
+					<label for="movie-input">Add character:</label>
+					<input type="text" id="movie-input">
+					<input id="addMovie" class="btn-default" type="submit" value="Submit">
+				</div>
+
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<!-- </form> -->
+
+				<!-- Buttons will get dumped here -->
+				<div id="buttonsAppearHere" >
+					<div><p>My Favorite Characters</p></div>
+					<div id="buttonView">
+
+					</div>
+				</div>
+				<div class="row">
+			<div class="col-md-12">
+				<h3>Movies</h3>
+				<div id="moviegifsAppearHere" class="content"></div>
+				</div>
+				</div>
+				<div class="row">
+			<div class="col-md-12">
+				<h3>Comics</h3>
+				<div id="comicgifsAppearHere" class="content"></div>
+
+			</div>
+			</div>
+				</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				
+
+			</div>
+
+		</div>
+
+		<div class="well">
+			&copy; Copyright 2016 Ritu Dubey
+		</div>
+
+
+		<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="assets/javascript/homepage.js"></script>
+	</body>
+	<style>
+/*#buttonView {
+	clear: both;
+}*/
+
+img{
+	height: 150px;
+	margin-right: 10px;
+}
+.movie{
+	height: 250px;
+	margin-right: 10px;
+}
+.item{
+	float: left;
+}
+
+#comicgifsAppearHere{
+	float: none;
+}
+
+#moviegifsAppearHere{
+	float: none;
+}
+#buttonsAppearHere{
+	overflow: auto;
+}
+
+</style>
+</html>
