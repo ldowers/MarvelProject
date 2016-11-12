@@ -1,5 +1,12 @@
 // Variables
-var comicID = "38043";
+
+
+ var query = window.location.search.substring(6);
+
+var type = query.substring(0,query.indexOf("&"));
+var id = query.substring((query.lastIndexOf("=")+1));
+
+var comicID = id;
 var api = "?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 var con_comics = { url: "https://gateway.marvel.com/v1/public/comics/" + comicID + api, method: "GET" };
 
@@ -7,6 +14,8 @@ var con_comics = { url: "https://gateway.marvel.com/v1/public/comics/" + comicID
 			 // method: "GET" };
 
 // Get Comic
+
+
 $.ajax(con_comics).done(response);
 
 // Functions

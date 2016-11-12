@@ -1,3 +1,9 @@
+	
+ var query = window.location.search.substring(1);
+
+
+ console.log("url " + query);
+ 
 	var con_commics = { url: "https://gateway.marvel.com/v1/public/comics/38043?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad",
 
 			 method: "GET" };
