@@ -3,19 +3,34 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<link rel="stylesheet" href="assets/custom.css">
+	<link rel="stylesheet" href="assets/css/home.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+	<script type="text/javascript">
+		  var config = {
+  	apiKey: "AIzaSyB_yYwEL9_In6KbQFf_3reG-K2nfvw_hnw",
+  	authDomain: "marvel-project-18704.firebaseapp.com",
+  	databaseURL: "https://marvel-project-18704.firebaseio.com",
+  	storageBucket: "marvel-project-18704.appspot.com",
+  	messagingSenderId: "500854224093"
+  };
+  firebase.initializeApp(config);
+	</script>
 	<script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-	<script type="text/javascript" src="assets/code.js"></script>
+	<script type="text/javascript" src="assets/javascript/code.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
 </head>
 <body>
 	<div class="container">
+	<div class="row">
+			<div class="col-lg-2 search-box">
+			<button id="signout">SIGN OUT</button>
+<!-- 			<button id="googlesignin">Google +</button>
+			<button id="facebooksignin">Facebook</button> -->
+			</div></div>
 	<!-- Search Bar -->
 		<div class="row">
 			<div class="col-lg-12 search-box">
@@ -31,19 +46,19 @@
 		<!-- Log In -->
 			<div class="col-lg-6 col-sm-12">
 				<div class="form-group">
-					<span class="input-group-addon" id="basic-addon1">Superhero Name</span>
-					<input type="text" class="form-control" aria-describedby="basic-addon1">					
+					<span class="input-group-addon" id="basic-addon1">Email</span>
+					<input type="email" class="form-control" aria-describedby="basic-addon1" id="login-email">					
 					<span class="input-group-addon" id="basic-addon2">Password</span>
-					<input type="password" class="form-control" aria-describedby="basic-addon2">
-					<input type="submit" value="Enter Lair">
+					<input type="password" class="form-control" aria-describedby="basic-addon2" id="login-password">
+					<button type="submit" id="login-submit">Enter Lair</button>
 				</div>
 			</div>
 			<!-- Register -->
 			<div class="col-lg-6 col-sm-12">
 				<div class="form-group">
 
-					<span class="input-group-addon" id="basic-addon3">Superhero Name</span>
-					<input type="text" class="form-control" aria-describedby="basic-addon3">
+					<span class="input-group-addon" id="basic-addon3">Display Name</span>
+					<input type="text" class="form-control" aria-describedby="basic-addon3" id="register-name">
 
 
 					<span class="input-group-addon" id="basic-addon4">Email</span>
@@ -53,14 +68,14 @@
 					<span class="input-group-addon" id="basic-addon5">Password</span>
 					<input type="password" class="form-control" aria-describedby="basic-addon5" id="register-password">
 
-					<label for="sel1">Choose Power -</label>
+<!-- 					<label for="sel1">Choose Power -</label>
 					<select class="form-control" id="sel1">
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
 						<option>4</option>
-					</select>
-					<input type="submit" value="Enter Lair" id="register-submit">
+					</select> -->
+					<button type="submit" id="register-submit">Enter Lair</button>
 				</div>
 			</div>
 		</div>
