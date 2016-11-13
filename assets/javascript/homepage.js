@@ -99,16 +99,7 @@ var character = {
 	 				var title = results[i].title;
 	 				var image = results[i].thumbnail.path + "." +results[i].thumbnail.extension;
 
-	 				var p = $('<p>').text(title);
-
-	 				var personImage = $('<img>');
-	 				personImage.attr('src', image);
-	 				personImage.attr("data-id", id);
-	 				personImage.addClass("comic");
-
-
-	 				gifDiv.append(p);
-	 				gifDiv.append(personImage);
+	 			
 
 	 				var item = $("<div>");
 	 				if (active) {
@@ -117,6 +108,7 @@ var character = {
 
 	 				}
 	 				else{
+
 	 					item.addClass("item");
 
 
@@ -139,9 +131,6 @@ var character = {
 
 
 
-
-
-	 				$('#comicgifsAppearHere').prepend(gifDiv);
 
 
 	 			}
