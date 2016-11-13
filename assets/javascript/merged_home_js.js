@@ -37,8 +37,7 @@ moviesRef.on("value", function(snapshot) {
 
 // Generic function for displaying favorite character buttons
 function renderButtons() { 
-	// Deletes the buttons and gifs prior to adding new buttons and gifs (this is necessary otherwise you will have repeat buttons)
-	$("#comicgifsAppearHere").empty();
+	// Deletes the buttons  prior to adding new buttons (this is necessary otherwise you will have repeat buttons)
 	$("#buttonView").empty();
 
 	// Loops through the array of favorite characters
@@ -93,12 +92,10 @@ function getMovies(name) {
 // ========================================================
 
 // This function handles events where one button is clicked
-$("body").on("click", '#addMovie', function() {
+$("body").on("click", '#addFavorite', function() {
 
 	// This line of code will grab the input from the textbox
-	var newFavorite = $('#movie-input').val();
-
-	newFavorite.replace(" ", "_");
+	var newFavorite = $('#favorite-input').val();
 
 	// The favorite character from the textbox is then added to our array
 	if(newFavorite !== "") {
