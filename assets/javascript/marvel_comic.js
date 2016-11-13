@@ -36,13 +36,13 @@ function response (res) {
 	// Create div for Marvel link to buy Comic
 	if (res.data.results[0].urls[1]) {
 		var divPurchase = $("<a>");
-		divPurchase.attr("href",res.data.results[0].urls[1].url );
+		divPurchase.attr("href",res.data.results[0].urls[1].url.replace("http", "https") );
 		divPurchase.text("purchase");
 		$(".purchase").append(divPurchase);
 	}
 	else if (res.data.results[0].urls[0]) {
 		var divPurchase = $("<a>");
-		divPurchase.attr("href",res.data.results[0].urls[0].url );
+		divPurchase.attr("href",res.data.results[0].urls[0].url.replace("http", "https") );
 		divPurchase.text("purchase");
 		$(".purchase").append(divPurchase);
 	}
@@ -50,7 +50,7 @@ function response (res) {
 	// Get characters that are in the Comic
 	getCharacters(res.data.results[0].characters.items);
 
-	console.log("Character Link:"+res.data.results[0].characters.items[0].resourceURI);
+	console.log("Character Link:"+res.data.results[0].characters.items[0].resourceURI.replace("http", "https"));
 }
 
 function getCharacters (results) {
@@ -59,7 +59,7 @@ function getCharacters (results) {
 
 	for (var i = 0 ; i< results.length ; i++){
 		
-		baseUrl =  results[i].resourceURI + api;
+		baseUrl =  results[i].resourceURI.replace("http", "https") + api;
 
 		$.ajax({ url:baseUrl, method:"GET" }).done(showCharacters);
 	}
