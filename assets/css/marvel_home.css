@@ -8,7 +8,23 @@ z-index:100
 
 body{
 	
-   background: #E2F3FB;
+    background-image: url("../images/marvel-bg.jpg");
+
+	}
+
+.nomargin{
+	padding: 20px;
+		margin: 10px;
+		background-color: #C9DAF0;
+		border-radius: 5px;
+		
+}
+
+	.nomargin_carousel{
+		padding: 10px;
+		margin: 0px;
+		background-color: #C9DAF0;
+		border-radius: 5px;
 
 	}
 
