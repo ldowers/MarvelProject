@@ -6,6 +6,16 @@ background:rgba(0, 0, 0, 0.6);
 z-index:100
 }
 
+body{
+	
+   background: #E2F3FB;
+
+	}
+
+.right{
+	float: right;
+}
+
 .pop-form{
 width:50%;
 margin:auto;
@@ -41,9 +51,7 @@ background:#44795b;
 color:#6ba082
 }
 
-   body {
-  	background: #fff;
-  }
+  
 
 .search-box {
     margin: 100px 0 50px;
