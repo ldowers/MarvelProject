@@ -59,7 +59,14 @@ body {
 }
 
 .purchase {
+
 	
 	margin:5px;
 }
 
+
+
+.movieLinks {
+	float: right;
+	margin: 0px 5px;
+}
