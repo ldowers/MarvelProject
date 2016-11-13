@@ -14,7 +14,7 @@ $.ajax(con_comics).done(response);
 // Handle displaying Comic Info
 function response (res) {
 	console.log(res);
-	var img = res.data.results[0].thumbnail.path + "/portrait_incredible.jpg";
+	var img = res.data.results[0].thumbnail.path.replace("http", "https") + "/portrait_incredible.jpg";
 
 	// Display poster for Comic
 	$(".poster").attr("src", img);
@@ -73,7 +73,7 @@ function showCharacters (res) {
 	// Create an image div
 	var img = $("<img>");
 	img.addClass("char");
-	img.attr("src", res.data.results[0].thumbnail.path+"/detail.jpg");
+	img.attr("src", res.data.results[0].thumbnail.path.replace("http", "https") + "/detail.jpg");
 
 	// Append the image div to the character div
 	div.append(img)

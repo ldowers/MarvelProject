@@ -66,7 +66,7 @@ function getCharacters(name) {
 };
 
 function showCharacters (res) {
-	var thumbnailPath = res.data.results[0].thumbnail.path;
+	var thumbnailPath = res.data.results[0].thumbnail.path.replace("http", "https");
 	var comicID = thumbnailPath.substring((thumbnailPath.lastIndexOf("/")+1));
 
 	if (comicID != "image_not_available") {

@@ -55,7 +55,7 @@ function renderButtons() {
 
 			character.id = results[i].id;
 			character.name = results[i].name;
-			character.image = results[i].thumbnail.path + "/portrait_xlarge." +results[i].thumbnail.extension;
+			character.image = results[i].thumbnail.path.replace("http", "https") + "/portrait_xlarge." +results[i].thumbnail.extension;
 
 			var gifDiv = $('<div class="item">');
 			var p = ('<p>' + character.name + '<span class="delete" id="'+ character.name +'">X</span></p');
@@ -138,7 +138,7 @@ $("body").on("click", '.character', function() {
 			var gifDiv = $('<div class="item">')
 			var id = results[i].id;
 			var title = results[i].title;
-			var image = results[i].thumbnail.path + "." +results[i].thumbnail.extension;
+			var image = results[i].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
 
 			// var p = $('<p>').text(title);
 
