@@ -242,88 +242,154 @@ var auth = firebase.auth();
 var user = firebase.auth().currentUser;
 var marvelSearch = "";
 var emailVerify = '';
-var providerGoogle = new firebase.auth.GoogleAuthProvider();
-providerGoogle.addScope('https://www.googleapis.com/auth/plus.login');
-providerGoogle.setCustomParameters({
-	'login_hint': 'user@example.com'
-});
-var providerFB = new firebase.auth.FacebookAuthProvider();
+// var providerGoogle = new firebase.auth.GoogleAuthProvider();
+// providerGoogle.addScope('https://www.googleapis.com/auth/plus.login');
+// providerGoogle.setCustomParameters({
+// 	'login_hint': 'user@example.com'
+// });
+// var providerFB = new firebase.auth.FacebookAuthProvider();
 var displayName = "";
-var userObj = {};
+var userRef = database.ref("/users");
 //
 
-console.log(database.ref('users/0/'));
-database.ref('users/').set({displayName: {"favorites": [0]}});
-database.ref('users/0/').set([1,2,3,4,5,6,7,]);
 
 // Create User on Firebase
 function createUser() {
-	userObj[displayName] = {
-		"favorites": [0],
-		"uid": userUID
-	};
-	database.ref('users/').set(userObj);
-}
-// End Create User
 
-// profile check to change User to add UID
-if (user != null) {
+	console.log("working!");
+	user = firebase.auth().currentUser;
+
+	if (user != null) {
+
 	user.providerData.forEach(function (profile) {
 
-		console.log("Sign-in provider: "+profile.providerId);
-		console.log("  Provider-specific UID: "+profile.uid);
-		console.log("  Name: "+profile.displayName);
-		console.log("  Email: "+profile.email);
-		console.log("  Photo URL: "+profile.photoURL);
-		var userUID = profile.uid;
+		displayName = $("#register-name").val();
+		console.log("Sign-in provider: " + profile.providerId);
+		console.log("  Provider-specific UID: " + profile.uid);
+		console.log("  Name: " + profile.displayName);
+		console.log("  Email: " + profile.email);
+		console.log("  Photo URL: " + profile.photoURL);
+
+		var userUID = firebase.auth().currentUser.uid;
+		console.log(userUID);
+
+			userArray = [{
+		"displayName": displayName,
+		"favorites": [0],
+		"uid": userUID
+	}];
+	database.ref('/users').push(userArray);
 
 	})
 }
-// End profile check to change User to add UID
+else {
+	return false;
+}
 
-//CLICK FUNCTIONS START
+}
+// End Create User
+
+
+
+
+
+
+// End profile check to change User to add UID
+$('body').on('click', '#submit-reg', function(){
+
+				console.log($("#register-email").val());
+
+       			//Variables
+       			var email = $("#register-email").val();
+       			var password = $("#register-password").val();
+       			var displayName = $("#register-name").val();
+
+       			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+
+          			// Handle Errors here.
+          			var errorCode = error.code;
+          			var errorMessage = error.message;
+          			console.log(error.code + ": " + error.message);
+          		})
+
+       			setTimeout(function(){ firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+       				console.log(firebase.auth().currentUser.emailVerified);
+
+         			// Handle Errors here.
+         			var errorCode = error.code;
+         			var errorMessage = error.message;
+         			console.log(error.code + ": " + error.message);
+         		})}, 1000)
+
+       		setTimeout(function(){	 emailVerify = firebase.auth().currentUser.emailVerified;
+
+       			createUser();
+
+       			firebase.auth().currentUser.sendEmailVerification().then(function() {
+        			// Email sent.
+        			console.log("Email Sent");
+        		}, function(error) {
+        			// An error happened.
+        			console.log(error.code + ": " + error.message);
+        		});
+
+       			firebase.auth().currentUser.updateProfile({
+       				displayName: displayName,
+       				photoURL: '1'
+       			}).then(function() {
+       				console.log("update");
+        			// Update successful.
+        		}, function(error) {
+        			console.log("error");
+        			// An error happened.
+        			console.log(error.code + ": " + error.message);
+        		})}, 2000)
+       		});
+
+
+//Submit
+$('body').on('click', '#submit-log', function(){
+
+			console.log($("#login-email").val());
+			var email = $("#login-email").val();
+			var password = $("#login-password").val();
+
+	        //Sign in with Email and Password
+	        auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+
+        		// Handle Errors here.
+        		var errorCode = error.code;
+        		var errorMessage = error.message;
+       		}); //End Sign in with Email
+
+	        emailVerify = firebase.auth().currentUser.emailVerified;
+	    });
+
+
+    // ============================
+    //   Signout/ Login and Register Pop ups
+    // ============================
+
 $( document ).ready(function() {
 	
-	// SEARCH BAR
-	$("#search-submit").on("click", function() {
+	// // SEARCH BAR
+	// $("#search-submit").on("click", function() {
 
-		var searchTerm = $("#search-input").val();
-		var marvelSearch = "https://gateway.marvel.com/v1/public/characters?name=" + searchTerm + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-		console.log($("#search-input").val());
-		$("#search-input").val('');
-		var searched = $("#search-input").val();
+	// 	var searchTerm = $("#search-input").val();
+	// 	var marvelSearch = "https://gateway.marvel.com/v1/public/characters?name=" + searchTerm + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+	// 	console.log($("#search-input").val());
+	// 	$("#search-input").val('');
+	// 	var searched = $("#search-input").val();
 
-		$.ajax({
-			url: marvelSearch,
-			method: 'GET'
-		})
-		.done(function(response){
-			console.log(response);
-		});
-        // End Ajax
-    });
-    // End Done
-
-    //   Login Form
-    $("#login-submit").on("click", function() {
-
-    	console.log($("#login-email").val());
-    	var email = $("#login-email").val();
-    	var password = $("#login-password").val();
-
-        //Sign in with Email and Password
-        user.signInWithEmailAndPassword(email, password).catch(function(error) {
-
-        	// Handle Errors here.
-        	var errorCode = error.code;
-        	var errorMessage = error.message;
-
-    	}); //End Sign in with Email
-
-        emailVerify = firebase.auth().currentUser.emailVerified;
-
- 	});//End Login Form
-
+	// 	$.ajax({
+	// 		url: marvelSearch,
+	// 		method: 'GET'
+	// 	})
+	// 	.done(function(response){
+	// 		console.log(response);
+	// 	});
+ //        // End Ajax
+ //    });
 
 
     // ============================
@@ -350,6 +416,8 @@ $( document ).ready(function() {
 
 
 
+
+
     // ============================
     //   Click function To pop up login
     // ============================
@@ -358,14 +426,12 @@ $( document ).ready(function() {
 
     	$('body').prepend('<div class="pop-back"></div>');
     	$('.pop-back').html('<div class= "pop-form"></div>');
-    	$('.pop-form').html("<form id='location-form'><label for='location-pick'><select class='form-control' id='location-pick'><option>Altamonte Springs</option><option>Apopka</option><option>Clermont</option><option>Davenport</option><option>Kisssimmee</option><option>Lake Mary</option><option>Longwood</option><option>Maitland</option><option>Orlando</option><option>Sanford</option><option>Wekiva Springs</option><option>Windermere</option><option>Winter Park</option></select><button type='submit' id='submit-log'>SELECT CITY</button></form>");
+       	$('.pop-form').html("<div class='form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
 
 			var Elem = e.target; 
-			console.log($(Elem).attr('class'));
-			console.log(e.data);
 
 			if ($(Elem).attr('class') == 'pop-back'){
 				$('.pop-back').remove();
@@ -373,26 +439,11 @@ $( document ).ready(function() {
 			}
 			else {
 				return false;
-			}
+			} 
+		}) //End Click out to close login
 		}); //End Login Pop up
 
-		//Submit
-		$('#submit-log').on('click', function(){
 
-			console.log($("#login-email").val());
-			var email = $("#login-email").val();
-			var password = $("#login-password").val();
-
-	        //Sign in with Email and Password
-	        user.signInWithEmailAndPassword(email, password).catch(function(error) {
-
-        		// Handle Errors here.
-        		var errorCode = error.code;
-        		var errorMessage = error.message;
-       		}); //End Sign in with Email
-
-	        emailVerify = firebase.auth().currentUser.emailVerified;
-	    });
 
 	   	// ============================
        	//   Click function To pop up register
@@ -402,13 +453,11 @@ $( document ).ready(function() {
 
        		$('body').prepend('<div class="pop-back"></div>');
        		$('.pop-back').html('<div class= "pop-form"></div>');
-       		$('.pop-form').html("<form id='location-form'><label for='location-pick'><select class='form-control' id='location-pick'><option>Altamonte Springs</option><option>Apopka</option><option>Clermont</option><option>Davenport</option><option>Kisssimmee</option><option>Lake Mary</option><option>Longwood</option><option>Maitland</option><option>Orlando</option><option>Sanford</option><option>Wekiva Springs</option><option>Windermere</option><option>Winter Park</option></select><button type='submit' id='submit-reg'>SELECT CITY</button></form>");
+       		$('.pop-form').html('<div class="form-group"><span class="input-group-addon" id="basic-addon3">Display Name</span><input type="text" class="form-control" aria-describedby="basic-addon3" id="register-name"><span class="input-group-addon" id="basic-addon4">Email</span><input type="email" class="form-control" aria-describedby="basic-addon4" id="register-email"><span class="input-group-addon" id="basic-addon5">Password</span><input type="password" class="form-control" aria-describedby="basic-addon5" id="register-password"><button type="submit" id="submit-reg">Enter Lair</button></div>');
 
 			//Click outside to make box disappear
 			$('body').click(function(e){
 				var Elem = e.target; 
-				console.log($(Elem).attr('class'));
-				console.log(e.data);
 				if ($(Elem).attr('class') == 'pop-back'){
 					$('.pop-back').remove();
 					return false;
@@ -416,55 +465,9 @@ $( document ).ready(function() {
 				else {
 					return false;
 				}
-			});
-
-			$('#submit-reg').on('click', function(){
-
-				console.log($("#register-email").val());
-
-       			//Variables
-       			var email = $("#register-email").val();
-       			var password = $("#register-password").val();
-       			var displayName = $("#register-name").val();
-
-       			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-
-          			// Handle Errors here.
-          			var errorCode = error.code;
-          			var errorMessage = error.message;
-          			console.log(error.code + ": " + error.message);
-          		});
-
-       			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-       				console.log(firebase.auth().currentUser.emailVerified);
-
-         			// Handle Errors here.
-         			var errorCode = error.code;
-         			var errorMessage = error.message;
-         		});
-
-       			emailVerify = firebase.auth().currentUser.emailVerified;
-
-       			createUser();
-
-       			firebase.auth().currentUser.sendEmailVerification().then(function() {
-        			// Email sent.
-        			console.log("Email Sent");
-        		}, function(error) {
-        			// An error happened.
-        		});
-
-       			firebase.auth().currentUser.updateProfile({
-       				displayName: displayName,
-       				photoURL: '1'
-       			}).then(function() {
-       				console.log("update");
-        			// Update successful.
-        		}, function(error) {
-        			console.log("error");
-        			// An error happened.
-        		});
-       		});
+			})
 		});
-       });
-});
+
+			
+		});
+
