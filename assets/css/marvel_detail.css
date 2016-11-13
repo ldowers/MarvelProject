@@ -61,3 +61,8 @@ body {
 .purchase {
 	position: absolute;
 }
+
+.movieLinks {
+	float: right;
+	margin: 0px 5px;
+}
