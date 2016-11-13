@@ -20,7 +20,7 @@ var type = query.substring(0,query.indexOf("&"));
 var movieID = query.substring((query.lastIndexOf("=")+1));
 var api = "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 
-var queryURL = "https://www.omdbapi.com/?i=" + movieID + "&y=&plot=full&r=json";
+var queryURL = "https://www.omdbapi.com/?i=" + movieID + "&y=&plot=short&r=json";
 
 // Functions
 // Handle displaying Movie Info
