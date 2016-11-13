@@ -44,13 +44,11 @@ var character = {
 				gifDiv.attr("data-id", character.id);
 				gifDiv.append(personImage);
 
-
-
-
 				$('#buttonView').prepend(gifDiv);
 			});
 
 		}
+
 
 	}
 
@@ -185,28 +183,19 @@ var character = {
 	 	});
 	$("body").on("click", '.comic', function() {
 		var id = $(this).attr("data-id");
-		// console.log(state);
-		// if(state == 'still') {
+		var url = "marvel.html?type=comic&id="+id;
 
-		// 	$(this).attr('src', $(this).data('animate'));
-		// 	$(this).attr('data-state', 'animate');
-		// }else {
-		// 	$(this).attr('src', $(this).data('still'))
-		// 	$(this).attr('data-state', 'still')
-		// }
+		window.location.href = url;
 	});
 
 	$("body").on("click", '.movie', function() {
 		var id = $(this).attr("data-id");
-		// console.log(state);
-		// if(state == 'still') {
+		var url = "marvel.html?type=movie&id="+id;
 
-		// 	$(this).attr('src', $(this).data('animate'));
-		// 	$(this).attr('data-state', 'animate');
-		// }else {
-		// 	$(this).attr('src', $(this).data('still'))
-		// 	$(this).attr('data-state', 'still')
-		// }
+		console.log("ID: " + id);
+		console.log("URL: " + url);
+
+		window.location.href = url;
 	});
 
 	// ========================================================
