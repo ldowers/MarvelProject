@@ -133,13 +133,13 @@ $("body").on("click", '.character', function() {
 
 		$(".carousel-inner").empty();
 
-		for (var i = 0; i < results.length; i++) {
+		for (var i = 0; i < results.length; i+=4) {
 
+console.log(i);
 			var gifDiv = $('<div class="item">')
 			var id = results[i].id;
 			var title = results[i].title;
-			var image = results[i].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
-
+			
 			// var p = $('<p>').text(title);
 
 			// var personImage = $('<img>');
@@ -162,13 +162,17 @@ $("body").on("click", '.character', function() {
 			else {
 				item.addClass("item");
 			}
+for (var j = i ; j < i+4 ; j++){
+
+	var image = results[j].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
 
 			var img = $("<img>");
 			img.attr("data-id", id);
 			img.addClass("comic");
+			img.addClass("right");
 			img.attr('src', image);
-			img.attr("width","460");
-			img.attr("height","345");
+			img.attr("width","260");
+			img.attr("height","145");
 			item.append(img);	
 
 			var divCaption = $("<div>");
@@ -176,8 +180,11 @@ $("body").on("click", '.character', function() {
 			divCaption.append("<h3>" + title + "</h3>");
 
 			item.append(divCaption);
-
+}
 			$(".carousel-inner").append(item);
+
+ 	
+
 		}
 	});
 
