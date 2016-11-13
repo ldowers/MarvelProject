@@ -3,7 +3,7 @@
 
 
  console.log("url " + query);
- 
+
 	var con_commics = { url: "https://gateway.marvel.com/v1/public/comics/38043?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad",
 
 			 method: "GET" };
@@ -95,7 +95,6 @@ if (charactersName.length == results.length) {
 
 console.log(charactersName[1] );
 
-getRelatedComics(charactersName);
 }
 
 
@@ -103,48 +102,9 @@ getRelatedComics(charactersName);
 }
 
 
-function getRelatedComics (results) {
-	
-	var imagesRelated = [];
-	var count = 0;
-
-
-	var baseUrl = "https://gateway.marvel.com:443/v1/public/characters?name=";
-var api = "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-
-console.log("wa");
-
-	for (var i= 0 ; i < results.length; i++){
-
-console.log(baseUrl+charactersName[i]+api);
-$.ajax({
-
-	url: baseUrl+charactersName[i]+api,
-	method:"GET"
-
-}).done(showRelatedComics);
-
-
-
-}
-
-
-function showRelatedComics (res) {
-	
-	console.log(res);
-
-	for ( var i = 0 ; i < res.data.results.length ; i++){
-
-		var img = $("<img>");
-		img.attr("src",  res.data.results[0].thumbnail.path+"/detail.jpg");
-
-		$(".recent").append(img);
-	}
-}
 
 	
 
-	}
-
+	
 
 

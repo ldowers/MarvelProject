@@ -49,6 +49,7 @@ var character = {
 
 		}
 
+
 	}
 
 
@@ -90,6 +91,7 @@ var character = {
 	 			var results = response.data.results;
 
 
+	 			var active = 1;
 	 			for (var i = 0; i < results.length; i++) {
 
 	 				var gifDiv = $('<div class="item">')
@@ -97,18 +99,38 @@ var character = {
 	 				var title = results[i].title;
 	 				var image = results[i].thumbnail.path + "." +results[i].thumbnail.extension;
 
-	 				var p = $('<p>').text(title);
+	 			
 
-	 				var personImage = $('<img>');
-	 				personImage.attr('src', image);
-	 				personImage.attr("data-id", id);
-	 				personImage.addClass("comic");
+	 				var item = $("<div>");
+	 				if (active) {
+	 					item.addClass("item active");
+	 					active = 0;
+
+	 				}
+	 				else{
+
+	 					item.addClass("item");
 
 
-	 				gifDiv.append(p);
-	 				gifDiv.append(personImage);
+	 				}
+	 				var img = $("<img>");
+	 				img.attr('src', image);
+	 				img.attr("width","460");
+	 				img.attr("height","345");
+	 				item.append(img);		
 
-	 				$('#comicgifsAppearHere').prepend(gifDiv);
+	 				var divCaption = $("<div>");
+	 				divCaption.addClass("carousel-caption");
+	 				divCaption.append("<h3>" + title + "</h3>");
+
+	 				item.append(divCaption);
+
+
+	 				
+	 				$(".carousel-inner").append(item);
+
+
+
 
 
 	 			}
