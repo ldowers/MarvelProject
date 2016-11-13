@@ -66,24 +66,31 @@ function getCharacters(name) {
 };
 
 function showCharacters (res) {
-	// Create a character div
-	var div = $("<div>");
-	div.addClass("div-char");
+	var thumbnailPath = res.data.results[0].thumbnail.path;
+	var comicID = thumbnailPath.substring((thumbnailPath.lastIndexOf("/")+1));
 
-	// Create an image div
-	var img = $("<img>");
-	img.addClass("char");
-	img.attr("src", res.data.results[0].thumbnail.path+"/detail.jpg");
+	if (comicID != "image_not_available") {
+		console.log(thumbnailPath);
 
-	// Append the image div to the character div
-	div.append(img)
+		// Create a character div
+		var div = $("<div>");
+		div.addClass("div-char");
 
-	// Append character name to character div
-	div.append("<br>"+ res.data.results[0].name);
+		// Create an image div
+		var img = $("<img>");
+		img.addClass("char");
+		img.attr("src", thumbnailPath +"/detail.jpg");
 
-	// Display character div
-	$(".characters").append(div);
-}
+		// Append the image div to the character div
+		div.append(img)
+
+		// Append character name to character div
+		div.append("<br>"+ res.data.results[0].name);
+
+		// Display character div
+		$(".characters").append(div);
+	}
+};
 
 // Database Reference Handlers
 moviesRef.on("value", function(snapshot) {
