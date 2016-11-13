@@ -79,3 +79,10 @@ img{
 #buttonsAppearHere{
 	overflow: auto;
 }
+
+.delete {
+	cursor: pointer;
+	color: red;
+	float: right;
+	margin-right: 15px;
+}

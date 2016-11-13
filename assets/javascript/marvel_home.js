@@ -57,8 +57,9 @@ function renderButtons() {
 			character.name = results[i].name;
 			character.image = results[i].thumbnail.path + "/portrait_xlarge." +results[i].thumbnail.extension;
 
-			var gifDiv = $('<div class="item">')
-			var p = $('<p>').text(character.name);
+			var gifDiv = $('<div class="item">');
+			var p = ('<p>' + character.name + '<span class="delete" id="'+ character.name +'">X</span></p');
+			// var p = $('<p>').text(character.name);
 			var personImage = $('<img>');
 
 			personImage.attr('src', character.image);
@@ -87,6 +88,14 @@ function getMovies(name) {
 
 		return result;
 	}
+};
+
+function removeFavorite() {
+	console.log("Remove Favorite Character");
+	var index = favorites.indexOf($(this).attr("id"));
+
+	favorites.splice(index, 1);
+	renderButtons();
 };
 
 // ========================================================
@@ -222,6 +231,8 @@ $("body").on("click", '.movie', function() {
 
 	window.location.href = url;
 });
+
+$(document).on('click', '.delete', removeFavorite);
 
 // ========================================================
 
