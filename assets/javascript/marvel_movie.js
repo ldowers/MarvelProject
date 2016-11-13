@@ -13,6 +13,8 @@ var database = firebase.database();
 var moviesRef = database.ref("/movies");
 var movieObject = "";
 var characterArray = [];
+var imdbLink = "";
+var marvelLink = "";
 
 // Variables
 var query = window.location.search.substring(6);
@@ -27,7 +29,7 @@ var queryURL = "https://www.omdbapi.com/?i=" + movieID + "&y=&plot=short&r=json"
 function response (res) {
 	console.log(res);
 	
-	// Display poster for Comic
+	// Display poster for Movie
 	$(".poster").attr("src", res.Poster);
 
 	// Display description for Movie
@@ -38,8 +40,24 @@ function response (res) {
 	$(".desc").append("<strong>Starring: </strong>" + res.Actors + "<br><br>");
 	$(".desc").append(res.Plot);
 
-	// Get characters that are in the Movie
+	// Get characters and links for Movie
 	characterArray = getCharacters(res.Title);
+
+	// Display IMDb and Marvel buttons
+	var imdbLinksDiv = $("<a>");
+	imdbLinksDiv.addClass("btn btn-primary movieLinks");
+	imdbLinksDiv.attr("href", imdbLink);
+	imdbLinksDiv.text("IMDb");
+
+	$(".desc").append("<br>");
+	$(".desc").append(imdbLinksDiv);
+
+	var marvelLinksDiv = $("<a>");
+	marvelLinksDiv.addClass("btn btn-primary movieLinks");
+	marvelLinksDiv.attr("href", marvelLink);
+	marvelLinksDiv.text("Marvel");
+
+	$(".desc").append(marvelLinksDiv);
 
 	for (var i = 0; i < characterArray.length; i++) {
 		var baseUrl = "https://gateway.marvel.com/v1/public/characters?name=" + characterArray[i] + api;	
@@ -56,6 +74,8 @@ function getCharacters(name) {
 
 			if (movieObject.child(i).val().title == name) {
 				result = movieObject.child(i).val().characters;
+				imdbLink = movieObject.child(i).val().imdbURL;
+				marvelLink = movieObject.child(i).val().marvelURL;
 
 				return result;
 			}
