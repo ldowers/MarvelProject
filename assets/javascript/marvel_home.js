@@ -212,7 +212,7 @@ $("body").on("click", '.character', function() {
 
 $("body").on("click", '.comic', function() {
 	var id = $(this).attr("data-id");
-	var url = "marvel.html?type=comic&id="+id;
+	var url = "marvel_comic.html?type=comic&id="+id;
 
 	window.location.href = url;
 });
