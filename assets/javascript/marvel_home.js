@@ -142,7 +142,7 @@ $("body").on("click", '#addFavorite', function() {
 $("body").on("click", '.character', function() {
 	var name = $(this).data('name');
 	var id = $(this).data('id');
-	var queryURL = "https://gateway.marvel.com/v1/public/characters/" + id + "/comics?limit=40&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+	var queryURL = "https://gateway.marvel.com/v1/public/characters/" + id + "/comics?limit=90&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 
 	$.ajax({
 		url: queryURL,
@@ -185,6 +185,7 @@ console.log(i);
 			}
 for (var j = i ; j < i+4 ; j++){
 
+if ( results[j]) {
 	var image = results[j].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
 
 			var img = $("<img>");
@@ -201,17 +202,20 @@ for (var j = i ; j < i+4 ; j++){
 			divCaption.append("<h3>" + title + "</h3>");
 
 			item.append(divCaption);
-}
-			$(".carousel-inner").append(item);
-
- 	
 
 		}
+}
+
+			$(".carousel-inner").append(item);
+}
+ 	
+
+	
 	});
 
-	//////////////////
+	//////////////////////end get comics///////////////////
 
-
+	
 	$('#moviegifsAppearHere').empty();
 
 	// Get array of movies for character that was clicked
@@ -243,6 +247,7 @@ for (var j = i ; j < i+4 ; j++){
 			});
 		}
 	}
+	//////////////////////get movies///////////////////
 });
 
 
