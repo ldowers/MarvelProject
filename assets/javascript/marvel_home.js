@@ -39,7 +39,7 @@ moviesRef.on("value", function(snapshot) {
 function renderButtons() { 
 	// Deletes the buttons  prior to adding new buttons (this is necessary otherwise you will have repeat buttons)
 	$("#buttonView").empty();
-
+	
 	// Loops through the array of favorite characters
 	for (var i = 0; i < favorites.length; i++) {
 
@@ -110,9 +110,6 @@ $("body").on("click", '#addFavorite', function() {
 });
 
 $("body").on("click", '.character', function() {
-	$("#comicgifsAppearHere").empty();
-	$("#comicgifsAppearHere").append("<br>");
-
 	var name = $(this).data('name');
 	var id = $(this).data('id');
 	var queryURL = "http://gateway.marvel.com/v1/public/characters/" + id + "/comics?limit=40&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
@@ -124,6 +121,8 @@ $("body").on("click", '.character', function() {
 	.done(function(response) {
 		var results = response.data.results;
 		var active = 1;
+
+		$(".carousel-inner").empty();
 
 		for (var i = 0; i < results.length; i++) {
 
@@ -161,7 +160,7 @@ $("body").on("click", '.character', function() {
 			img.attr('src', image);
 			img.attr("width","460");
 			img.attr("height","345");
-			item.append(img);		
+			item.append(img);	
 
 			var divCaption = $("<div>");
 			divCaption.addClass("carousel-caption");

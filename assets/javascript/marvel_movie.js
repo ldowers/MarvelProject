@@ -1,12 +1,26 @@
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyDvsjGzJ66U8aIrW1K15vXsLIKh4IS8AS8",
+	authDomain: "marvel-favorites.firebaseapp.com",
+	databaseURL: "https://marvel-favorites.firebaseio.com",
+	storageBucket: "marvel-favorites.appspot.com",
+	messagingSenderId: "408212986746"
+};
+firebase.initializeApp(config);
+
+// Global Variables
+var database = firebase.database();
+var moviesRef = database.ref("/movies");
+var movieObject = "";
+var characterArray = [];
+
 // Variables
 var query = window.location.search.substring(6);
 var type = query.substring(0,query.indexOf("&"));
 var movieID = query.substring((query.lastIndexOf("=")+1));
+var api = "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 
 var queryURL = "http://www.omdbapi.com/?i=" + movieID + "&y=&plot=full&r=json";
-
-// Get Movie
-$.ajax({url: queryURL, method: 'GET'}).done(response);
 
 // Functions
 // Handle displaying Movie Info
@@ -19,25 +33,37 @@ function response (res) {
 	// Display description for Movie
 	$(".desc").addClass("jumbotron");
 	$(".desc").html("<h2>" + res.Title + "</h2>");
+	$(".desc").append("<strong>Rating: </strong>" + res.Rated + "<br>");
+	$(".desc").append("<strong>Release Date: </strong>" + res.Released + "<br>");
+	$(".desc").append("<strong>Starring: </strong>" + res.Actors + "<br><br>");
 	$(".desc").append(res.Plot);
 
-	// Get characters that are in the Comic
-	// getCharacters(res.data.results[0].characters.items);
+	// Get characters that are in the Movie
+	characterArray = getCharacters(res.Title);
 
-	// console.log("Character Link:"+res.data.results[0].characters.items[0].resourceURI);
-}
-
-function getCharacters (results) {
-	console.log(results);
-	var baseUrl;
-
-	for (var i = 0 ; i< results.length ; i++){
-		
-		baseUrl =  results[i].resourceURI + api;
-
+	for (var i = 0; i < characterArray.length; i++) {
+		var baseUrl = "http://gateway.marvel.com/v1/public/characters?name=" + characterArray[i] + api;	
 		$.ajax({ url:baseUrl, method:"GET" }).done(showCharacters);
 	}
 }
+
+
+function getCharacters(name) {
+	if (movieObject != "") {
+		var result = [];
+
+		for (var i = 0; i < movieObject.val().length; i++) {
+
+			if (movieObject.child(i).val().title == name) {
+				result = movieObject.child(i).val().characters;
+
+				return result;
+			}
+		};
+
+		return result;
+	}
+};
 
 function showCharacters (res) {
 	// Create a character div
@@ -58,3 +84,13 @@ function showCharacters (res) {
 	// Display character div
 	$(".characters").append(div);
 }
+
+// Database Reference Handlers
+moviesRef.on("value", function(snapshot) {
+	if (snapshot.exists()) {
+		movieObject = snapshot;
+
+		// Get Movie
+		$.ajax({url: queryURL, method: 'GET'}).done(response);
+	}
+});
