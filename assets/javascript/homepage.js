@@ -18,38 +18,41 @@ var character = {
 		// Loops through the array of movies
 		for (var i = 0; i < movies.length; i++) {
 
-	 		var queryURL = "https://gateway.marvel.com/v1/public/characters?name=" + movies[i] + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-	 		$.ajax({
-	 			url: queryURL,
-	 			method: 'GET'
-	 		})
-	 		.done(function(response) {
-	 			var results = response.data.results;
+			var queryURL = "https://gateway.marvel.com/v1/public/characters?name=" + movies[i] + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+			$.ajax({
+				url: queryURL,
+				method: 'GET'
+			})
+			.done(function(response) {
+				var results = response.data.results;
 
-	 				var i =0;
+				var i =0;
 
-	 				character.id = results[i].id;
+				character.id = results[i].id;
 
-	 				character.name = results[i].name;
-	 				character.image = results[i].thumbnail.path + "/portrait_xlarge." +results[i].thumbnail.extension;
-	 				var gifDiv = $('<div class="item">')
+				character.name = results[i].name;
+				character.image = results[i].thumbnail.path + "/portrait_xlarge." +results[i].thumbnail.extension;
+				var gifDiv = $('<div class="item">')
 
-	 				var p = $('<p>').text(character.name);
-	 				var personImage = $('<img>');
-	 				personImage.attr('src', character.image);
+				var p = $('<p>').text(character.name);
+				var personImage = $('<img>');
+				personImage.attr('src', character.image);
 
-	 				gifDiv.append(p);
-	 				gifDiv.addClass("character");
-	 				gifDiv.attr("data-name", character.name);
-	 				gifDiv.attr("data-id", character.id);
-	 				gifDiv.append(personImage);
+				gifDiv.append(p);
+				gifDiv.addClass("character");
+				gifDiv.attr("data-name", character.name);
+				gifDiv.attr("data-id", character.id);
+				gifDiv.append(personImage);
 
-	 				$('#buttonView').prepend(gifDiv);
-	 		});
 
-	 	}
 
-	 }
+
+				$('#buttonView').prepend(gifDiv);
+			});
+
+		}
+
+	}
 
 
 
@@ -90,6 +93,7 @@ var character = {
 	 			var results = response.data.results;
 
 
+	 			var active = 1;
 	 			for (var i = 0; i < results.length; i++) {
 
 	 				var gifDiv = $('<div class="item">')
@@ -108,6 +112,37 @@ var character = {
 	 				gifDiv.append(p);
 	 				gifDiv.append(personImage);
 
+	 				var item = $("<div>");
+	 				if (active) {
+	 					item.addClass("item active");
+	 					active = 0;
+
+	 				}
+	 				else{
+	 					item.addClass("item");
+
+
+	 				}
+	 				var img = $("<img>");
+	 				img.attr('src', image);
+	 				img.attr("width","460");
+	 				img.attr("height","345");
+	 				item.append(img);		
+
+	 				var divCaption = $("<div>");
+	 				divCaption.addClass("carousel-caption");
+	 				divCaption.append("<h3>" + title + "</h3>");
+
+	 				item.append(divCaption);
+
+
+	 				
+	 				$(".carousel-inner").append(item);
+
+
+
+
+
 	 				$('#comicgifsAppearHere').prepend(gifDiv);
 
 
@@ -125,21 +160,21 @@ var character = {
 	 		$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
 
 	 			var gifDiv = $('<div class="item">')
-	 				var title = response.Title;
-	 				var image = response.Poster;
+	 			var title = response.Title;
+	 			var image = response.Poster;
 
-	 				var p = $('<p>').text(title);
+	 			var p = $('<p>').text(title);
 
-	 				var personImage = $('<img>');
-	 				personImage.attr('src', image);
-	 				personImage.attr("data-id", response.imdbID);
-	 				personImage.addClass("movie");
+	 			var personImage = $('<img>');
+	 			personImage.attr('src', image);
+	 			personImage.attr("data-id", response.imdbID);
+	 			personImage.addClass("movie");
 
 
-	 				gifDiv.append(p);
-	 				gifDiv.append(personImage);
+	 			gifDiv.append(p);
+	 			gifDiv.append(personImage);
 
-	 				$('#moviegifsAppearHere').prepend(gifDiv);
+	 			$('#moviegifsAppearHere').prepend(gifDiv);
 
 	 		});
 
