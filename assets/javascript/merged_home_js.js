@@ -222,18 +222,15 @@ $("body").on("click", '.comic', function() {
 
 $("body").on("click", '.movie', function() {
 	var id = $(this).attr("data-id");
-	var url = "marvel.html?type=movie&id="+id;
-
-	console.log("ID: " + id);
-	console.log("URL: " + url);
+	var url = "marvel_movie.html?type=movie&id="+id;
 
 	window.location.href = url;
 });
 
-	// ========================================================
+// ========================================================
 
-	// This calls the renderButtons() function
-	renderButtons();
+// This calls the renderButtons() function
+renderButtons();
 
 
 //================================================================================================= Mitchels Code For Login, Sign up, Sending Verifying Emails, Saving characters to User
