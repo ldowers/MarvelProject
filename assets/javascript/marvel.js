@@ -34,10 +34,18 @@ function response (res) {
 	$(".desc").append(priceDiv);
 
 	// Create div for Marvel link to buy Comic
-	var divPurchase = $("<a>");
-	divPurchase.attr("href",res.data.results[0].urls[1].url );
-	divPurchase.text("purchase");
-	$(".purchase").append(divPurchase);
+	if (res.data.results[0].urls[1]) {
+		var divPurchase = $("<a>");
+		divPurchase.attr("href",res.data.results[0].urls[1].url );
+		divPurchase.text("purchase");
+		$(".purchase").append(divPurchase);
+	}
+	else if (res.data.results[0].urls[0]) {
+		var divPurchase = $("<a>");
+		divPurchase.attr("href",res.data.results[0].urls[0].url );
+		divPurchase.text("purchase");
+		$(".purchase").append(divPurchase);
+	}
 
 	// Get characters that are in the Comic
 	getCharacters(res.data.results[0].characters.items);
