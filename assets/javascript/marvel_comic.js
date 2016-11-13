@@ -15,13 +15,13 @@ $.ajax(con_comics).done(response);
 function response (res) {
 	console.log(res);
 	var img = res.data.results[0].thumbnail.path.replace("http", "https") + "/portrait_incredible.jpg";
-
+var title = res.data.results[0].title;
 	// Display poster for Comic
 	$(".poster").attr("src", img);
 
 	// Display description for Comic
 	$(".desc").addClass("jumbotron");
-	$(".desc").html("<h2>" + res.data.results[0].title + "</h2>");
+	$(".desc").html("<h2>" + title + "</h2>");
 	$(".desc").append(res.data.results[0].description);
 
 	// Create div for Comic Price button
@@ -38,14 +38,36 @@ function response (res) {
 		var divPurchase = $("<a>");
 		divPurchase.attr("href",res.data.results[0].urls[1].url.replace("http", "https") );
 		divPurchase.text("purchase");
-		$(".purchase").append(divPurchase);
+		
+		//$(".purchase").append(divPurchase);
+		$(".desc").append(divPurchase);
+
+		console.log("ok"+amazon + title.replace(" ","+") + "comics");
 	}
 	else if (res.data.results[0].urls[0]) {
 		var divPurchase = $("<a>");
+		divPurchase.addClass(" purchase btn btn-primary")
 		divPurchase.attr("href",res.data.results[0].urls[0].url.replace("http", "https") );
-		divPurchase.text("purchase");
-		$(".purchase").append(divPurchase);
-	}
+		divPurchase.text("Marvel");
+
+		var amazonPurchase = $("<a>");
+		amazonPurchase.addClass("purchase btn btn-primary");
+		var amazon =  "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=";
+		
+		amazon = amazon + title;
+		 amazon = amazon.replace(/ /g, "+");
+		//amazon = " ";
+		amazonPurchase.attr("href", amazon + "comics" );
+		console.log("ok"+amazon + "comics");
+		amazonPurchase.text("Amazon");
+
+
+		$(".desc").append("<h3>Buy</h3> ");
+	$(".desc").append(divPurchase);
+	$(".desc").append(amazonPurchase);
+
+		}
+
 
 	// Get characters that are in the Comic
 	getCharacters(res.data.results[0].characters.items);
