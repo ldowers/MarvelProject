@@ -100,6 +100,27 @@ function removeFavorite() {
 
 // ========================================================
 
+$("#favorite-input").keyup(function(event) {
+
+var firstchar = event.key;
+if(firstchar.length === 1) {
+        var queryURL = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + firstchar + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+	 		$.ajax({
+	 			url: queryURL,
+	 			method: 'GET'
+	 		})
+	 		.done(function(response) {
+	 			var results = response.data.results;
+	 			console.log(response);
+				for (var i = 0; i < results.length; i++) {
+	 				
+            			$("#autofill").append("<option value='" + results[i].name + "'>");
+        			}
+        		
+	 		});
+	 	}
+
+	 	});
 // This function handles events where one button is clicked
 $("body").on("click", '#addFavorite', function() {
 

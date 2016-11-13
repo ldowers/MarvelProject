@@ -26,6 +26,7 @@
 	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
 </head>
 <body>
+<datalist id="autofill"></datalist>
 	
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-inverse">
@@ -58,7 +59,7 @@
 				<!-- Add favorite character form -->
 				<div class="form-group well">
 					<label for="favorite-input">Add character:</label>
-					<input type="text" id="favorite-input">
+					<input type="text" list="autofill" id="favorite-input">
 					<input id="addFavorite" class="btn-default" type="submit" value="Submit">
 				</div>
 			</div>
@@ -110,4 +111,8 @@
 		<!-- Custom JS -->
 		<script type="text/javascript" src="assets/javascript/marvel_home.js"></script>
 </body>
+<style>
+	.carousel-inner .active.left { left: -33%; }
+.carousel-inner .next        { left:  33%; }
+</style>
 </html>
