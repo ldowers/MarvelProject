@@ -1,4 +1,15 @@
 
+//FIREBASE
+  var config = {
+    apiKey: "AIzaSyDvsjGzJ66U8aIrW1K15vXsLIKh4IS8AS8",
+    authDomain: "marvel-favorites.firebaseapp.com",
+    databaseURL: "https://marvel-favorites.firebaseio.com",
+    storageBucket: "marvel-favorites.appspot.com",
+    messagingSenderId: "408212986746"
+  };
+  firebase.initializeApp(config);
+
+
 //ALL VARIABLES
           var database = firebase.database();
           var auth = firebase.auth();
@@ -52,6 +63,7 @@ $( document ).ready(function() {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
+          console.log(error.code + ": " + error.message);
         })
        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
          console.log(firebase.auth().currentUser.emailVerified);
@@ -96,7 +108,7 @@ $( document ).ready(function() {
         var email = $("#login-email").val();
         var password = $("#login-password").val();
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-         console.log(firebase.auth().currentUser.emailVerified);
+        
 
          // Handle Errors here.
          var errorCode = error.code;
@@ -115,16 +127,6 @@ $( document ).ready(function() {
          // An error happened.
        })
       })
-
-             var ref = new Firebase("file:///C:/Users/Mitchel/Desktop/UCF_Projects/MarvelProject/home.html");
-      ref.onAuth(function(authData) {
-        console.log("It worked!");
-        if (authData) {
-          console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        } else {
-          console.log("User is logged out");
-        }
-      });
      });
 
 
@@ -140,6 +142,17 @@ $( document ).ready(function() {
 
 
 
+
+//  var ref = new Firebase("file:///C:/Users/Mitchel/Desktop/UCF_Projects/MarvelProject/home.html");
+//  ref.onAuth(function(authData) {
+//  console.log("It worked!");
+//  if (authData) {
+//  console.log("User " + authData.uid + " is logged in with " + authData.provider);
+//    } else {
+//  console.log("User is logged out");
+//    }
+//  });
+// });
 
 
 //  $("#googlesignin").on("click", function() {
