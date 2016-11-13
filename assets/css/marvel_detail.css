@@ -10,12 +10,13 @@ body {
 
 .row1 {
 	text-align: center;
-	margin-left: 0px
+	margin-left: 0px;
+	margin-top: 50px;
 }
 
 .poster {
 	position: absolute;
-	top: 30px; right: 70%;
+	top: 80px; right: 70%;
 	width: 216px;
 	height: 324px;
 }
@@ -23,7 +24,7 @@ body {
 .desc {
 	float: right;
 	position: absolute;
-	top: 30px;
+	top: 80px;
 	right: 15%;
 	padding: 10px;
 	width: 50%;
