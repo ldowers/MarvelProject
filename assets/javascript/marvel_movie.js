@@ -20,7 +20,7 @@ var type = query.substring(0,query.indexOf("&"));
 var movieID = query.substring((query.lastIndexOf("=")+1));
 var api = "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 
-var queryURL = "http://www.omdbapi.com/?i=" + movieID + "&y=&plot=full&r=json";
+var queryURL = "https://www.omdbapi.com/?i=" + movieID + "&y=&plot=full&r=json";
 
 // Functions
 // Handle displaying Movie Info
@@ -42,7 +42,7 @@ function response (res) {
 	characterArray = getCharacters(res.Title);
 
 	for (var i = 0; i < characterArray.length; i++) {
-		var baseUrl = "http://gateway.marvel.com/v1/public/characters?name=" + characterArray[i] + api;	
+		var baseUrl = "https://gateway.marvel.com/v1/public/characters?name=" + characterArray[i] + api;	
 		$.ajax({ url:baseUrl, method:"GET" }).done(showCharacters);
 	}
 }

@@ -121,7 +121,7 @@ $("body").on("click", '#addFavorite', function() {
 $("body").on("click", '.character', function() {
 	var name = $(this).data('name');
 	var id = $(this).data('id');
-	var queryURL = "http://gateway.marvel.com/v1/public/characters/" + id + "/comics?limit=40&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+	var queryURL = "https://gateway.marvel.com/v1/public/characters/" + id + "/comics?limit=40&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 
 	$.ajax({
 		url: queryURL,
@@ -192,7 +192,7 @@ $("body").on("click", '.character', function() {
 	if (movieArray != []) {
 		for (var i = 0; i < movieArray.length; i++) {
 			var movie = movieArray[i];
-			var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
+			var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
 
 			$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
 
