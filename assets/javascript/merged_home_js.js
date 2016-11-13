@@ -13,7 +13,6 @@ var database = firebase.database();
 var moviesRef = database.ref("/movies");
 var movieObject = "";
 var movieArray = [];
-var characterName = "";
 
 // Initial array of favorite characters
 var favorites = ['Hulk', 'Thor'];
@@ -24,6 +23,17 @@ var character = {
 }
 
 // ========================================================
+
+// Database Reference Handlers
+moviesRef.on("value", function(snapshot) {
+	if (snapshot.exists()) {
+		movieObject = snapshot;
+	}
+});
+
+// ========================================================
+
+// Functions
 
 // Generic function for displaying favorite character buttons
 function renderButtons() { 
@@ -63,7 +73,22 @@ function renderButtons() {
 			$('#buttonView').prepend(gifDiv);
 		});
 	}
-}
+};
+
+function getMovies(name) {
+	if (movieObject != "") {
+		var result = [];
+
+		for (var i = 0; i < movieObject.val().length; i++) {
+
+			if (movieObject.child(i).val().characters.indexOf(name) >= 0) {
+				result.push(movieObject.child(i).val().title);
+			}
+		};
+
+		return result;
+	}
+};
 
 // ========================================================
 
@@ -151,40 +176,41 @@ $("body").on("click", '.character', function() {
 		}
 	});
 
-	 		//////////////////
+	//////////////////
 
 
-	 		$('#moviegifsAppearHere').empty();
+	$('#moviegifsAppearHere').empty();
+
+	// Get array of movies for character that was clicked
+	movieArray = getMovies(name);
+
+	if (movieArray != []) {
+		for (var i = 0; i < movieArray.length; i++) {
+			var movie = movieArray[i];
+			var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
+
+			$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
+
+				var gifDiv = $('<div class="item">')
+				var title = response.Title;
+				var image = response.Poster;
+
+				var p = $('<p>').text(title);
+
+				var personImage = $('<img>');
+				personImage.attr('src', image);
+				personImage.attr("data-id", response.imdbID);
+				personImage.addClass("movie");
 
 
-	 		var queryURL = "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&r=json";
+				gifDiv.append(p);
+				gifDiv.append(personImage);
 
-	 		$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
-
-	 			var gifDiv = $('<div class="item">')
-	 			var title = response.Title;
-	 			var image = response.Poster;
-
-	 			var p = $('<p>').text(title);
-
-	 			var personImage = $('<img>');
-	 			personImage.attr('src', image);
-	 			personImage.attr("data-id", response.imdbID);
-	 			personImage.addClass("movie");
-
-
-	 			gifDiv.append(p);
-	 			gifDiv.append(personImage);
-
-	 			$('#moviegifsAppearHere').prepend(gifDiv);
-
-	 		});
-
-
-
-
-	 		/////////////////////
-	 	});
+				$('#moviegifsAppearHere').append(gifDiv);
+			});
+		}
+	}
+});
 
 
 $("body").on("click", '.comic', function() {
@@ -297,7 +323,7 @@ $( document ).ready(function() {
 
         	// Handle Errors here.
         	var errorCode = error.code;
-         	var errorMessage = error.message;
+        	var errorMessage = error.message;
 
     	}); //End Sign in with Email
 
@@ -311,7 +337,7 @@ $( document ).ready(function() {
     //   Signout Button
     // ============================
 
-	$("#signout").on("click", function() {
+    $("#signout").on("click", function() {
 
        	//Firebase Sign out Function
        	firebase.auth().signOut().then(function() {
@@ -319,13 +345,13 @@ $( document ).ready(function() {
         // Sign-out successful.
         console.log("Signed out");
 
-    	}, function(error) {
+    }, function(error) {
 
         // An error happened.
         var errorCode = error.code;
         var errorMessage = error.message;
 
-     	});
+    });
 
    	});//End Signout
 
@@ -338,8 +364,8 @@ $( document ).ready(function() {
     $("[href='#Login-form']").on('click', function(){
 
     	$('body').prepend('<div class="pop-back"></div>');
-       	$('.pop-back').html('<div class= "pop-form"></div>');
-       	$('.pop-form').html("<form id='location-form'><label for='location-pick'><select class='form-control' id='location-pick'><option>Altamonte Springs</option><option>Apopka</option><option>Clermont</option><option>Davenport</option><option>Kisssimmee</option><option>Lake Mary</option><option>Longwood</option><option>Maitland</option><option>Orlando</option><option>Sanford</option><option>Wekiva Springs</option><option>Windermere</option><option>Winter Park</option></select><button type='submit' id='submit-log'>SELECT CITY</button></form>");
+    	$('.pop-back').html('<div class= "pop-form"></div>');
+    	$('.pop-form').html("<form id='location-form'><label for='location-pick'><select class='form-control' id='location-pick'><option>Altamonte Springs</option><option>Apopka</option><option>Clermont</option><option>Davenport</option><option>Kisssimmee</option><option>Lake Mary</option><option>Longwood</option><option>Maitland</option><option>Orlando</option><option>Sanford</option><option>Wekiva Springs</option><option>Windermere</option><option>Winter Park</option></select><button type='submit' id='submit-log'>SELECT CITY</button></form>");
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
@@ -365,21 +391,21 @@ $( document ).ready(function() {
 			var password = $("#login-password").val();
 
 	        //Sign in with Email and Password
-    	    user.signInWithEmailAndPassword(email, password).catch(function(error) {
+	        user.signInWithEmailAndPassword(email, password).catch(function(error) {
 
         		// Handle Errors here.
         		var errorCode = error.code;
-         		var errorMessage = error.message;
+        		var errorMessage = error.message;
        		}); //End Sign in with Email
 
-        	emailVerify = firebase.auth().currentUser.emailVerified;
-    	});
+	        emailVerify = firebase.auth().currentUser.emailVerified;
+	    });
 
 	   	// ============================
        	//   Click function To pop up register
        	// ============================
 
-	    $("[href='#Register-form']").on('click', function(){
+       	$("[href='#Register-form']").on('click', function(){
 
        		$('body').prepend('<div class="pop-back"></div>');
        		$('.pop-back').html('<div class= "pop-form"></div>');
@@ -409,12 +435,12 @@ $( document ).ready(function() {
        			var displayName = $("#register-name").val();
 
        			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-          			
+
           			// Handle Errors here.
           			var errorCode = error.code;
           			var errorMessage = error.message;
           			console.log(error.code + ": " + error.message);
-      			});
+          		});
 
        			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
        				console.log(firebase.auth().currentUser.emailVerified);
@@ -422,7 +448,7 @@ $( document ).ready(function() {
          			// Handle Errors here.
          			var errorCode = error.code;
          			var errorMessage = error.message;
-     			});
+         		});
 
        			emailVerify = firebase.auth().currentUser.emailVerified;
 
@@ -431,9 +457,9 @@ $( document ).ready(function() {
        			firebase.auth().currentUser.sendEmailVerification().then(function() {
         			// Email sent.
         			console.log("Email Sent");
-    			}, function(error) {
+        		}, function(error) {
         			// An error happened.
-    			});
+        		});
 
        			firebase.auth().currentUser.updateProfile({
        				displayName: displayName,
@@ -441,11 +467,11 @@ $( document ).ready(function() {
        			}).then(function() {
        				console.log("update");
         			// Update successful.
-    			}, function(error) {
-    				console.log("error");
+        		}, function(error) {
+        			console.log("error");
         			// An error happened.
-    			});
-   			});
+        		});
+       		});
 		});
-   });
+       });
 });
