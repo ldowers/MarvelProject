@@ -1,8 +1,5 @@
 // Variables
-
-
- var query = window.location.search.substring(6);
-
+var query = window.location.search.substring(6);
 var type = query.substring(0,query.indexOf("&"));
 var id = query.substring((query.lastIndexOf("=")+1));
 
@@ -10,12 +7,7 @@ var comicID = id;
 var api = "?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 var con_comics = { url: "https://gateway.marvel.com/v1/public/comics/" + comicID + api, method: "GET" };
 
-// var characters = { url: "https://gateway.marvel.com/v1/public/comics/22856?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad",
-			 // method: "GET" };
-
 // Get Comic
-
-
 $.ajax(con_comics).done(response);
 
 // Functions
@@ -81,54 +73,6 @@ function showCharacters (res) {
 	// Append character name to character div
 	div.append("<br>"+ res.data.results[0].name);
 
-	// charactersName[count] = res.data.results[0].name;
-
 	// Display character div
 	$(".characters").append(div);
-
-// count++;
-
-// if (charactersName.length == results.length) {
-
-// console.log(charactersName[1] );
-
-// getRelatedComics(charactersName);
-// }
-}
-
-function getRelatedComics (results) {
-	
-	var imagesRelated = [];
-	var count = 0;
-
-
-	var baseUrl = "https://gateway.marvel.com:443/v1/public/characters?name=";
-	var api = "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-
-	console.log("wa");
-
-	for (var i= 0 ; i < results.length; i++){
-
-		console.log(baseUrl+charactersName[i]+api);
-		$.ajax({
-
-			url: baseUrl+charactersName[i]+api,
-			method:"GET"
-
-		}).done(showRelatedComics);
-	}
-}
-
-
-function showRelatedComics (res) {
-	
-	console.log(res);
-
-	for ( var i = 0 ; i < res.data.results.length ; i++){
-
-		var img = $("<img>");
-		img.attr("src",  res.data.results[0].thumbnail.path+"/detail.jpg");
-
-		$(".recent").append(img);
-	}
 }
