@@ -60,14 +60,16 @@ body {
 }
 
 .purchase {
-
-	
 	margin:5px;
 }
-
-
 
 .movieLinks {
 	float: right;
 	margin: 0px 5px;
+}
+
+#logoImage {
+	position: absolute;
+	height: 50px;
+    left: 40%;
 }

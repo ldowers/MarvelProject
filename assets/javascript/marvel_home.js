@@ -63,6 +63,7 @@ function renderButtons() {
 			var personImage = $('<img>');
 
 			personImage.attr('src', character.image);
+			personImage.addClass("characterImage");
 
 			gifDiv.append(p);
 			gifDiv.addClass("character");
@@ -242,6 +243,7 @@ if ( results[j]) {
 	if (movieArray != []) {
 
 		$('#moviegifsAppearHere').append("<h3>Movies</h3>");
+
 		for (var i = 0; i < movieArray.length; i++) {
 			var movie = movieArray[i];
 			var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";

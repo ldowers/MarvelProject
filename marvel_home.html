@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<title>Marvel Home Page</title>
+	<title>Marvel Favorites</title>
 
 	<!-- Reset CSS -->
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
@@ -26,39 +26,40 @@
 	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
 </head>
 <body>
+	<!-- Datalist for autofill of Add Favorites input -->
 	<datalist id="autofill"></datalist>
 	
 	<!-- Navigation Bar -->
 	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
+		<div class="container=fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">User Name</a>
+				<a class="navbar-brand" href="#">Marvel Favorites</a>
+				<img id="logoImage" src="assets/images/marvelicon.png" alt="Marvel" />
 			</div>
-
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+			
+			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-<!-- 					<li><a href="https://www.facebook.com">FB</a></li>
-					<li><a href="https://twitter.com">Twitter</a></li>
-					<li><a href="https://www.youtube.com">YouTube</a></li> -->
-					<li><a href="#Login-form">Login</a></li>
-					<li><a href="#Register-form">Register</a></li>
+					<li><a href="#Register-form"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+					<li><a href="#Login-form"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
+	<!-- Home Page Container -->
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<!-- Add favorite character form -->
+
+				<!-- Favorite character form -->
 				<div class="form-group well">
-					<label for="favorite-input">Add character:</label>
+					<label for="favorite-input">Add your favorite Marvel character:</label>
 					<input type="text" list="autofill" id="favorite-input">
 					<input id="addFavorite" class="btn-default" type="submit" value="Submit">
 				</div>
@@ -66,31 +67,28 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<!-- Favorite Character Buttons -->
-				<div id="buttonsAppearHere" class = "nomargin">
-					<div><p>My Favorite Characters</p></div>
+
+				<!-- Favorite character buttons -->
+				<div id="buttonsAppearHere" class="nomargin">
+					<h3>My Favorite Characters</h3>
 					<div id="buttonView"></div>
 				</div>
 
-				<!-- Add panel start -->
-				<div class="container"><h2>Movies and Comics</h2></div>
-				<div id="exTab3" class="container nomargin">	
-					
+				<!-- Movies and Comics panel -->
+				<div id="exTab3" class="nomargin">	
 					<div class="tabs"></div>
-					
-						<!-- Comic Carousel -->
-						
-
-					<div class="tab-content clearfix ">
+					<div class="tab-content clearfix">
 						<div class="tab-pane active" id="1b">
-						
+
+							<!-- Movies buttons-->
 							<div id="moviegifsAppearHere" class="content"></div>
 						</div>
 						<div class="tab-pane " id="2b">
+
+							<!-- Comics Carousel -->
 							<h3>Comics</h3>
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-								<div class="carousel-inner" role="listbox">
-								</div>
+								<div class="carousel-inner" role="listbox"></div>
 
 								<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
 									<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -108,23 +106,15 @@
 						</div> -->
 					</div>
 				</div>
-				
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
 			</div>
 		</div>
 
 		<footer class="well">
 			&copy; Copyright 2016
 		</footer>
-
-		<!-- Custom JS -->
-		<script type="text/javascript" src="assets/javascript/marvel_home.js"></script>
-	</body>
-	<style>
-		.carousel-inner .active.left { left: -33%; }
-		.carousel-inner .next        { left:  33%; }
-	</style>
-	</html>
+	</div>
+	
+	<!-- Custom JS -->
+	<script type="text/javascript" src="assets/javascript/marvel_home.js"></script>
+</body>
+</html>
