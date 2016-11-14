@@ -27,8 +27,7 @@ var queryURL = "https://www.omdbapi.com/?i=" + movieID + "&y=&plot=short&r=json"
 // Functions
 // Handle displaying Movie Info
 function response (res) {
-	console.log(res);
-	
+		
 	// Display poster for Movie
 	$(".poster").attr("src", res.Poster);
 
@@ -90,8 +89,7 @@ function showCharacters (res) {
 	var comicID = thumbnailPath.substring((thumbnailPath.lastIndexOf("/")+1));
 
 	if (comicID != "image_not_available") {
-		console.log(thumbnailPath);
-
+		
 		// Create a character div
 		var div = $("<div>");
 		div.addClass("div-char");
