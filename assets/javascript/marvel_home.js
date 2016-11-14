@@ -149,6 +149,24 @@ $("body").on("click", '.character', function() {
 		method: 'GET'
 	})
 	.done(function(response) {
+
+		var ul = $("<ul>");
+		ul.addClass("nav nav-pills ");
+
+		var li_1 = $("<li>");
+			li_1.addClass("active");
+			li_1.append('<a  href="#1b" data-toggle="tab">Movies</a>');
+
+
+		var li_2 = $("<li>");
+		li_2.append('<a href="#2b" data-toggle="tab">Comics</a>');
+
+
+	ul.append(li_1);
+	ul.append(li_2);
+
+	$(".tabs").html(ul);
+
 		var results = response.data.results;
 		var active = 1;
 
@@ -222,6 +240,8 @@ if ( results[j]) {
 	movieArray = getMovies(name);
 
 	if (movieArray != []) {
+
+		$('#moviegifsAppearHere').append("<h3>Movies</h3>");
 		for (var i = 0; i < movieArray.length; i++) {
 			var movie = movieArray[i];
 			var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&r=json";
