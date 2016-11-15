@@ -10,12 +10,15 @@ firebase.initializeApp(config);
 
 // Global Variables
 var database = firebase.database();
+
 var moviesRef = database.ref("/movies");
 var movieObject = "";
 var movieArray = [];
 
-// Initial array of favorite characters
+var favoritesRef = database.ref("/favorites");
+var favoritesObject = "";
 var favorites = ['Hulk', 'Thor'];
+
 var character = {
 	id: 0,
 	name : "",
@@ -25,10 +28,20 @@ var character = {
 // ========================================================
 
 // Database Reference Handlers
-moviesRef.on("value", function(snapshot) {
-	if (snapshot.exists()) {
-		movieObject = snapshot;
-	}
+$(document).ready(function() {
+	moviesRef.on("value", function(snapshot) {
+		if (snapshot.exists()) {
+			movieObject = snapshot;
+		}
+	});
+
+	favoritesRef.on("value", function(snapshot) {
+		if (snapshot.exists()) {
+			favoritesObject = snapshot;
+
+			renderButtons();
+		}
+	});
 });
 
 // ========================================================
@@ -39,6 +52,7 @@ moviesRef.on("value", function(snapshot) {
 function renderButtons() { 
 	// Deletes the buttons  prior to adding new buttons (this is necessary otherwise you will have repeat buttons)
 	$("#buttonView").empty();
+	favorites = getFavorites();
 	
 	// Loops through the array of favorite characters
 	for (var i = 0; i < favorites.length; i++) {
@@ -92,36 +106,57 @@ function getMovies(name) {
 };
 
 function removeFavorite() {
-	console.log("Remove Favorite Character");
 	var index = favorites.indexOf($(this).attr("id"));
 
 	favorites.splice(index, 1);
-	renderButtons();
+	storeFavorites();
+};
+
+function getFavorites() {
+	var result = [];
+	var currentUser = firebase.auth().currentUser;
+
+	if (favoritesObject != "" && currentUser != null) {
+		result = favoritesObject.child(currentUser.uid).val().characters;
+	}
+	
+	return result;
+};
+
+function storeFavorites() {
+	var currentUser = firebase.auth().currentUser;
+
+	if (currentUser != null) {
+		database.ref('favorites/' + currentUser.uid).set({
+			displayName: currentUser.displayName,
+			characters: favorites
+		});
+	}
 };
 
 // ========================================================
 
 $("#favorite-input").keyup(function(event) {
 
-var firstchar = event.key;
-if(firstchar.length === 1) {
-        var queryURL = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + firstchar + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-	 		$.ajax({
-	 			url: queryURL,
-	 			method: 'GET'
-	 		})
-	 		.done(function(response) {
-	 			var results = response.data.results;
-	 			console.log(response);
-				for (var i = 0; i < results.length; i++) {
-	 				
-            			$("#autofill").append("<option value='" + results[i].name + "'>");
-        			}
-        		
-	 		});
-	 	}
+	var firstchar = event.key;
+	if(firstchar.length === 1) {
+		var queryURL = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=" + firstchar + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
+		$.ajax({
+			url: queryURL,
+			method: 'GET'
+		})
+		.done(function(response) {
+			var results = response.data.results;
+			console.log(response);
+			for (var i = 0; i < results.length; i++) {
 
-	 	});
+				$("#autofill").append("<option value='" + results[i].name + "'>");
+			}
+
+		});
+	}
+
+});
 // This function handles events where one button is clicked
 $("body").on("click", '#addFavorite', function() {
 
@@ -131,9 +166,7 @@ $("body").on("click", '#addFavorite', function() {
 	// The favorite character from the textbox is then added to our array
 	if(newFavorite !== "") {
 		favorites.push(newFavorite);
-
-		// Our array then runs which handles the processing of our favorites array
-		renderButtons();
+		storeFavorites();
 	}
 
 	// We have this line so that users can hit "enter" instead of clicking on ht button and it won't move to the next page
@@ -155,18 +188,18 @@ $("body").on("click", '.character', function() {
 		ul.addClass("nav nav-pills ");
 
 		var li_1 = $("<li>");
-			li_1.addClass("active");
-			li_1.append('<a  href="#1b" data-toggle="tab">Movies</a>');
+		li_1.addClass("active");
+		li_1.append('<a  href="#1b" data-toggle="tab">Movies</a>');
 
 
 		var li_2 = $("<li>");
 		li_2.append('<a href="#2b" data-toggle="tab">Comics</a>');
 
 
-	ul.append(li_1);
-	ul.append(li_2);
+		ul.append(li_1);
+		ul.append(li_2);
 
-	$(".tabs").html(ul);
+		$(".tabs").html(ul);
 
 		var results = response.data.results;
 		var active = 1;
@@ -175,7 +208,7 @@ $("body").on("click", '.character', function() {
 
 		for (var i = 0; i < results.length; i+=4) {
 
-console.log(i);
+			console.log(i);
 			var gifDiv = $('<div class="item">')
 			var id = results[i].id;
 			var title = results[i].title;
@@ -202,34 +235,34 @@ console.log(i);
 			else {
 				item.addClass("item");
 			}
-for (var j = i ; j < i+4 ; j++){
+			for (var j = i ; j < i+4 ; j++){
 
-if ( results[j]) {
-	var image = results[j].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
+				if ( results[j]) {
+					var image = results[j].thumbnail.path.replace("http", "https") + "." +results[i].thumbnail.extension;
 
-			var img = $("<img>");
-			img.attr("data-id", id);
-			img.addClass("comic");
-			img.addClass("right");
-			img.attr('src', image);
-			img.attr("width","260");
-			img.attr("height","145");
-			item.append(img);	
+					var img = $("<img>");
+					img.attr("data-id", id);
+					img.addClass("comic");
+					img.addClass("right");
+					img.attr('src', image);
+					img.attr("width","260");
+					img.attr("height","145");
+					item.append(img);	
 
-			var divCaption = $("<div>");
-			divCaption.addClass("carousel-caption");
-			divCaption.append("<h3>" + title + "</h3>");
+					var divCaption = $("<div>");
+					divCaption.addClass("carousel-caption");
+					divCaption.append("<h3>" + title + "</h3>");
 
-			item.append(divCaption);
+					item.append(divCaption);
 
-		}
-}
+				}
+			}
 
 			$(".carousel-inner").append(item);
-}
- 	
+		}
 
-	
+
+
 	});
 
 	//////////////////////end get comics///////////////////
@@ -327,30 +360,30 @@ function createUser() {
 
 	if (user != null) {
 
-	user.providerData.forEach(function (profile) {
+		user.providerData.forEach(function (profile) {
 
-		displayName = $("#register-name").val();
-		console.log("Sign-in provider: " + profile.providerId);
-		console.log("  Provider-specific UID: " + profile.uid);
-		console.log("  Name: " + profile.displayName);
-		console.log("  Email: " + profile.email);
-		console.log("  Photo URL: " + profile.photoURL);
+			displayName = $("#register-name").val();
+			console.log("Sign-in provider: " + profile.providerId);
+			console.log("  Provider-specific UID: " + profile.uid);
+			console.log("  Name: " + profile.displayName);
+			console.log("  Email: " + profile.email);
+			console.log("  Photo URL: " + profile.photoURL);
 
-		var userUID = firebase.auth().currentUser.uid;
-		console.log(userUID);
+			var userUID = firebase.auth().currentUser.uid;
+			console.log(userUID);
 
 			userArray = [{
-		"displayName": displayName,
-		"favorites": [0],
-		"uid": userUID
-	}];
-	database.ref('/users').push(userArray);
+				"displayName": displayName,
+				"favorites": [0],
+				"uid": userUID
+			}];
+			database.ref('/users').push(userArray);
 
-	})
-}
-else {
-	return false;
-}
+		})
+	}
+	else {
+		return false;
+	}
 
 }
 // End Create User
@@ -364,8 +397,10 @@ else {
 $('body').on('click', '#submit-reg', function(e){
 
 
+
 			
 				console.log($("#register-email").val());
+	console.log($("#register-email").val());
 
        			//Variables
        			var email = $("#register-email").val();
@@ -389,11 +424,11 @@ $('body').on('click', '#submit-reg', function(e){
          			console.log(error.code + ": " + error.message);
          		})}, 1000)
 
-       		setTimeout(function(){	 emailVerify = firebase.auth().currentUser.emailVerified;
+       			setTimeout(function(){	 emailVerify = firebase.auth().currentUser.emailVerified;
 
-       			createUser();
+       				createUser();
 
-       			firebase.auth().currentUser.sendEmailVerification().then(function() {
+       				firebase.auth().currentUser.sendEmailVerification().then(function() {
         			// Email sent.
         			console.log("Email Sent");
         		}, function(error) {
@@ -401,11 +436,11 @@ $('body').on('click', '#submit-reg', function(e){
         			console.log(error.code + ": " + error.message);
         		});
 
-       			firebase.auth().currentUser.updateProfile({
-       				displayName: displayName,
-       				photoURL: '1'
-       			}).then(function() {
-       				console.log("update");
+       				firebase.auth().currentUser.updateProfile({
+       					displayName: displayName,
+       					photoURL: '1'
+       				}).then(function() {
+       					console.log("update");
         			// Update successful.
         		}, function(error) {
         			console.log("error");
@@ -418,9 +453,9 @@ $('body').on('click', '#submit-reg', function(e){
 //Submit
 $('body').on('click', '#submit-log', function(){
 
-			console.log($("#login-email").val());
-			var email = $("#login-email").val();
-			var password = $("#login-password").val();
+	console.log($("#login-email").val());
+	var email = $("#login-email").val();
+	var password = $("#login-password").val();
 
 	        //Sign in with Email and Password
 	        auth.signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -438,8 +473,8 @@ $('body').on('click', '#submit-log', function(){
     //   Signout/ Login and Register Pop ups
     // ============================
 
-$( document ).ready(function() {
-	
+    $( document ).ready(function() {
+
 	// // SEARCH BAR
 	// $("#search-submit").on("click", function() {
 
@@ -494,7 +529,11 @@ $( document ).ready(function() {
 
     	$('body').prepend('<div class="pop-back"></div>');
     	$('.pop-back').html('<div class= "pop-form"></div>');
+<<<<<<< HEAD
        	$('.pop-form').html("<div class='jumbotron form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
+=======
+    	$('.pop-form').html("<div class='form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
+>>>>>>> 1e5195951cd50b051aca48dfd47a99691e40187e
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
@@ -538,6 +577,6 @@ $( document ).ready(function() {
 			})
 		});
 
-			
-		});
+
+       });
 
