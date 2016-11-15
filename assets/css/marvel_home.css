@@ -10,6 +10,28 @@ body {
 	background-image: url("../images/marvel-bg.jpg");
 }
 
+
+.delete{
+	display: none;
+	position: absolute;
+	
+}
+
+
+
+.item:hover .delete{
+display: block; 
+top: 20%;
+right: 	10%
+
+
+}
+
+
+.item{
+	position: relative;
+}
+
 .nomargin {
 	padding: 25px;
 	margin-bottom: 10px;
