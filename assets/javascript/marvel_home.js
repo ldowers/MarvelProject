@@ -361,8 +361,10 @@ else {
 
 
 // End profile check to change User to add UID
-$('body').on('click', '#submit-reg', function(){
+$('body').on('click', '#submit-reg', function(e){
 
+
+			
 				console.log($("#register-email").val());
 
        			//Variables
@@ -492,7 +494,7 @@ $( document ).ready(function() {
 
     	$('body').prepend('<div class="pop-back"></div>');
     	$('.pop-back').html('<div class= "pop-form"></div>');
-       	$('.pop-form').html("<div class='form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
+       	$('.pop-form').html("<div class='jumbotron form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
@@ -516,6 +518,8 @@ $( document ).ready(function() {
        	// ============================
 
        	$("[href='#Register-form']").on('click', function(){
+
+
 
        		$('body').prepend('<div class="pop-back"></div>');
        		$('.pop-back').html('<div class= "pop-form"></div>');
