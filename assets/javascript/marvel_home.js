@@ -529,11 +529,11 @@ $('body').on('click', '#submit-log', function(){
 
     	$('body').prepend('<div class="pop-back"></div>');
     	$('.pop-back').html('<div class= "pop-form"></div>');
-<<<<<<< HEAD
+
        	$('.pop-form').html("<div class='jumbotron form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
-=======
+
     	$('.pop-form').html("<div class='form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
->>>>>>> 1e5195951cd50b051aca48dfd47a99691e40187e
+
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
