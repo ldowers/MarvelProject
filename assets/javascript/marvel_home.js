@@ -464,6 +464,8 @@ $('body').on('click', '#submit-log', function(){
         		var errorMessage = error.message;
        		}); //End Sign in with Email
 
+       		$(".pop-form").remove();
+
 	        emailVerify = firebase.auth().currentUser.emailVerified;
 	    });
 
@@ -535,18 +537,18 @@ $('body').on('click', '#submit-log', function(){
 
 
 		//Click outside to make box disappear
-		$('body').click(function(e){
+		// $('body').click(function(e){
 
-			var Elem = e.target; 
+		// 	var Elem = e.target; 
 
-			if ($(Elem).attr('class') == 'pop-back'){
-				$('.pop-back').remove();
-				return false;
-			}
-			else {
-				return false;
-			} 
-		}) //End Click out to close login
+		// 	if ($(Elem).attr('class') == 'pop-back'){
+		// 		$('.pop-back').remove();
+		// 		return false;
+		// 	}
+		// 	else {
+		// 		return false;
+		// 	} 
+		// }) //End Click out to close login
 		}); //End Login Pop up
 
 
