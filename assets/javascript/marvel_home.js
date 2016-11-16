@@ -374,7 +374,6 @@ function createUser() {
 
 			userArray = [{
 				"displayName": displayName,
-				"favorites": [0],
 				"uid": userUID
 			}];
 			database.ref('/users').push(userArray);
