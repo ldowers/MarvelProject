@@ -379,6 +379,10 @@ function createUser() {
 			database.ref('/users').push(userArray);
 
 		})
+
+
+       		$(".pop-back").remove();
+       		displayUser();
 	}
 	else {
 		return false;
@@ -464,9 +468,10 @@ $('body').on('click', '#submit-log', function(){
         		var errorMessage = error.message;
        		}); //End Sign in with Email
 
-       		$(".pop-form").remove();
+       		$(".pop-back").remove();
+       		displayUser();
 
-	        emailVerify = firebase.auth().currentUser.emailVerified;
+	       // emailVerify = firebase.auth().currentUser.emailVerified;
 	    });
 
 
@@ -474,7 +479,37 @@ $('body').on('click', '#submit-log', function(){
     //   Signout/ Login and Register Pop ups
     // ============================
 
+function displayUser() {
+
+setTimeout (function() {
+			 if (firebase.auth().currentUser != null ) {
+    	//	alert(firebase.auth().currentUser.displayName);
+    		$("#registerID").hide();
+    		$("#loginID").hide();
+    		$("#logoutID").show();
+    		$("#nameID").html(firebase.auth().currentUser.displayName);
+    		renderButtons();
+
+
+    	}
+
+    	else{
+    	//	alert("No user in firebase");
+    		$("#registerID").show();
+    		$("#loginID").show();
+    		$("#logoutID").hide();
+    		$("#nameID").html("");
+    		$("#buttonView").empty();
+    	}
+		}, 2000);
+
+}
+ 
+
     $( document ).ready(function() {
+
+
+    	displayUser();
 
 	// // SEARCH BAR
 	// $("#search-submit").on("click", function() {
@@ -500,13 +535,14 @@ $('body').on('click', '#submit-log', function(){
     //   Signout Button
     // ============================
 
-    $("#signout").on("click", function() {
+    $("#logoutID").on("click", function() {
 
        	//Firebase Sign out Function
        	firebase.auth().signOut().then(function() {
 
         // Sign-out successful.
         console.log("Signed out");
+        displayUser();
 
     }, function(error) {
 
@@ -537,18 +573,21 @@ $('body').on('click', '#submit-log', function(){
 
 
 		//Click outside to make box disappear
-		// $('body').click(function(e){
+		$('body').click(function(e){
 
-		// 	var Elem = e.target; 
+			var Elem = e.target; 
 
-		// 	if ($(Elem).attr('class') == 'pop-back'){
-		// 		$('.pop-back').remove();
-		// 		return false;
-		// 	}
-		// 	else {
-		// 		return false;
-		// 	} 
-		// }) //End Click out to close login
+			if ($(Elem).attr('class') == 'pop-back'){
+				$('.pop-back').remove();
+				return false;
+			}
+			else {
+				return false;
+			} 
+		})
+
+
+		 //End Click out to close login
 		}); //End Login Pop up
 
 
