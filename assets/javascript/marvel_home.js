@@ -17,7 +17,7 @@ var movieArray = [];
 
 var favoritesRef = database.ref("/favorites");
 var favoritesObject = "";
-var favorites = ['Hulk', 'Thor'];
+var favorites = [];
 
 var character = {
 	id: 0,
@@ -106,10 +106,13 @@ function getMovies(name) {
 };
 
 function removeFavorite() {
-	var index = favorites.indexOf($(this).attr("id"));
+	$(".carousel-inner").empty();
+	$('#moviegifsAppearHere').empty();
+	var index = favorites.indexOf($(this).attr("id").toLowerCase());
 
 	favorites.splice(index, 1);
 	storeFavorites();
+
 };
 
 function getFavorites() {
@@ -161,7 +164,8 @@ $("#favorite-input").keyup(function(event) {
 $("body").on("click", '#addFavorite', function() {
 
 	// This line of code will grab the input from the textbox
-	var newFavorite = $('#favorite-input').val();
+	var newFavorite = $('#favorite-input').val().toLowerCase();
+	newFavorite.replace(" ", "_");
 
 	// The favorite character from the textbox is then added to our array
 	if(newFavorite !== "") {
@@ -208,7 +212,6 @@ $("body").on("click", '.character', function() {
 
 		for (var i = 0; i < results.length; i+=4) {
 
-			console.log(i);
 			var gifDiv = $('<div class="item">')
 			var id = results[i].id;
 			var title = results[i].title;
