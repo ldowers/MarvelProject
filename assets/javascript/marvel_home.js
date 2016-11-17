@@ -1,3 +1,5 @@
+// ========================================================
+
 // Initialize Firebase
 var config = {
 	apiKey: "AIzaSyDvsjGzJ66U8aIrW1K15vXsLIKh4IS8AS8",
@@ -7,6 +9,8 @@ var config = {
 	messagingSenderId: "408212986746"
 };
 firebase.initializeApp(config);
+
+// ========================================================
 
 // Global Variables
 var database = firebase.database();
@@ -49,11 +53,20 @@ $(document).ready(function() {
 // Functions
 
 // Generic function for displaying favorite character buttons
-function renderButtons() { 
+function renderButtons() {
+	var currentUser = firebase.auth().currentUser;
+
 	// Deletes the buttons  prior to adding new buttons (this is necessary otherwise you will have repeat buttons)
 	$("#buttonView").empty();
-	favorites = getFavorites();
-	
+
+	if (currentUser != null) {
+
+		// Get user's favorites from database
+		favorites = getFavorites();	
+	}
+
+	console.log("Render Buttons: " + favorites);
+
 	// Loops through the array of favorite characters
 	for (var i = 0; i < favorites.length; i++) {
 
@@ -73,7 +86,6 @@ function renderButtons() {
 
 			var gifDiv = $('<div class="item">');
 			var p = ('<p>' + character.name + '<span class="delete" id="'+ character.name +'">X</span></p');
-			// var p = $('<p>').text(character.name);
 			var personImage = $('<img>');
 
 			personImage.attr('src', character.image);
@@ -95,7 +107,6 @@ function getMovies(name) {
 		var result = [];
 
 		for (var i = 0; i < movieObject.val().length; i++) {
-
 			if (movieObject.child(i).val().characters.indexOf(name) >= 0) {
 				result.push(movieObject.child(i).val().title);
 			}
@@ -108,11 +119,10 @@ function getMovies(name) {
 function removeFavorite() {
 	$(".carousel-inner").empty();
 	$('#moviegifsAppearHere').empty();
-	var index = favorites.indexOf($(this).attr("id").toLowerCase());
+	var index = favorites.indexOf($(this).attr("id"));
 
 	favorites.splice(index, 1);
 	storeFavorites();
-
 };
 
 function getFavorites() {
@@ -135,9 +145,14 @@ function storeFavorites() {
 			characters: favorites
 		});
 	}
+	else {
+		renderButtons();
+	}
 };
 
 // ========================================================
+
+// Event Handlers
 
 $("#favorite-input").keyup(function(event) {
 
@@ -155,23 +170,23 @@ $("#favorite-input").keyup(function(event) {
 
 				$("#autofill").append("<option value='" + results[i].name + "'>");
 			}
-
 		});
 	}
-
 });
+
 // This function handles events where one button is clicked
 $("body").on("click", '#addFavorite', function() {
 
 	// This line of code will grab the input from the textbox
-	var newFavorite = $('#favorite-input').val().toLowerCase();
-	newFavorite.replace(" ", "_");
-
+	var newFavorite = $('#favorite-input').val();
+	
 	// The favorite character from the textbox is then added to our array
 	if(newFavorite !== "") {
 		favorites.push(newFavorite);
 		storeFavorites();
 	}
+
+	$('#favorite-input').val("");
 
 	// We have this line so that users can hit "enter" instead of clicking on ht button and it won't move to the next page
 	return false;
@@ -195,10 +210,8 @@ $("body").on("click", '.character', function() {
 		li_1.addClass("active");
 		li_1.append('<a  href="#1b" data-toggle="tab">Movies</a>');
 
-
 		var li_2 = $("<li>");
 		li_2.append('<a href="#2b" data-toggle="tab">Comics</a>');
-
 
 		ul.append(li_1);
 		ul.append(li_2);
@@ -215,20 +228,6 @@ $("body").on("click", '.character', function() {
 			var gifDiv = $('<div class="item">')
 			var id = results[i].id;
 			var title = results[i].title;
-			
-			// var p = $('<p>').text(title);
-
-			// var personImage = $('<img>');
-			// personImage.attr('src', image);
-			// personImage.attr("data-id", id);
-			// personImage.addClass("comic");
-
-
-			// gifDiv.append(p);
-			// gifDiv.append(personImage);
-
-			// $('#comicgifsAppearHere').prepend(gifDiv);
-
 			var item = $("<div>");
 			
 			if (active) {
@@ -257,15 +256,11 @@ $("body").on("click", '.character', function() {
 					divCaption.append("<h3>" + title + "</h3>");
 
 					item.append(divCaption);
-
 				}
 			}
 
 			$(".carousel-inner").append(item);
 		}
-
-
-
 	});
 
 	//////////////////////end get comics///////////////////
@@ -328,7 +323,7 @@ $(document).on('click', '.delete', removeFavorite);
 // ========================================================
 
 // This calls the renderButtons() function
-renderButtons();
+// renderButtons();
 
 
 //================================================================================================= Mitchels Code For Login, Sign up, Sending Verifying Emails, Saving characters to User
@@ -336,28 +331,16 @@ renderButtons();
 
 //FIREBASE
 
-
-
 //ALL VARIABLES
-// var database = firebase.database();
 var auth = firebase.auth();
 var user = firebase.auth().currentUser;
 var marvelSearch = "";
 var emailVerify = '';
-// var providerGoogle = new firebase.auth.GoogleAuthProvider();
-// providerGoogle.addScope('https://www.googleapis.com/auth/plus.login');
-// providerGoogle.setCustomParameters({
-// 	'login_hint': 'user@example.com'
-// });
-// var providerFB = new firebase.auth.FacebookAuthProvider();
 var displayName = "";
 var userRef = database.ref("/users");
-//
-
 
 // Create User on Firebase
 function createUser() {
-
 	console.log("working!");
 	user = firebase.auth().currentUser;
 
@@ -381,31 +364,21 @@ function createUser() {
 			}];
 			database.ref('/users').push(userArray);
 
-		})
+		});
 
-
-       		$(".pop-back").remove();
-       		displayUser();
+		$(".pop-back").remove();
+		displayUser();
 	}
 	else {
 		return false;
 	}
-
-}
+};
 // End Create User
-
-
-
-
-
 
 // End profile check to change User to add UID
 $('body').on('click', '#submit-reg', function(e){
 
-
-
-			
-				console.log($("#register-email").val());
+	console.log($("#register-email").val());
 	console.log($("#register-email").val());
 
        			//Variables
@@ -419,7 +392,7 @@ $('body').on('click', '#submit-reg', function(e){
           			var errorCode = error.code;
           			var errorMessage = error.message;
           			console.log(error.code + ": " + error.message);
-          		})
+          		});
 
        			setTimeout(function(){ firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
        				console.log(firebase.auth().currentUser.emailVerified);
@@ -428,7 +401,7 @@ $('body').on('click', '#submit-reg', function(e){
          			var errorCode = error.code;
          			var errorMessage = error.message;
          			console.log(error.code + ": " + error.message);
-         		})}, 1000)
+         		})}, 1000);
 
        			setTimeout(function(){	 emailVerify = firebase.auth().currentUser.emailVerified;
 
@@ -455,7 +428,6 @@ $('body').on('click', '#submit-reg', function(e){
         		})}, 2000)
        		});
 
-
 //Submit
 $('body').on('click', '#submit-log', function(){
 
@@ -470,79 +442,59 @@ $('body').on('click', '#submit-log', function(){
         		var errorCode = error.code;
         		var errorMessage = error.message;
 
-if ( errorCode == "uth/wrong-password" || errorCode == "auth/user-not-found") {
+        		if ( errorCode == "uth/wrong-password" || errorCode == "auth/user-not-found") {
 
-	 $('#myModal').modal();
-	 $(".modal-title").html("Try again");
+        			$('#myModal').modal();
+        			$(".modal-title").html("Try again");
 
-	$(".modal-body").html("Wrong email or password");
+        			$(".modal-body").html("Wrong email or password");
 
-}
+        		}
         		console.log(errorCode);
        		}); //End Sign in with Email
 
-       		$(".pop-back").remove();
-       		displayUser();
+	        $(".pop-back").remove();
+	        displayUser();
 
 	       // emailVerify = firebase.auth().currentUser.emailVerified;
-	    });
-
+	   });
 
     // ============================
     //   Signout/ Login and Register Pop ups
     // ============================
 
-function displayUser() {
+    function displayUser() {
 
-setTimeout (function() {
-			 if (firebase.auth().currentUser != null ) {
+    	setTimeout (function() {
+    		if (firebase.auth().currentUser != null ) {
     	//	alert(firebase.auth().currentUser.displayName);
-    		$("#registerID").hide();
-    		$("#loginID").hide();
-    		$("#logoutID").show();
-    		$("#nameID").html(firebase.auth().currentUser.displayName);
+    	$("#registerID").hide();
+    	$("#loginID").hide();
+    	$("#logoutID").show();
+    	$("#nameID").html(firebase.auth().currentUser.displayName);
+    	if (favoritesObject != "") {
     		renderButtons();
-
-
     	}
+    }
 
-    	else{
+    else{
     	//	alert("No user in firebase");
-    		$("#registerID").show();
-    		$("#loginID").show();
-    		$("#logoutID").hide();
-    		$("#nameID").html("");
-    		$("#buttonView").empty();
-    	}
-		}, 2000);
+    	$("#registerID").show();
+    	$("#loginID").show();
+    	$("#logoutID").hide();
+    	$("#nameID").html("");
+    	$("#buttonView").empty();
+    	$(".carousel-inner").empty();
+    	$('#moviegifsAppearHere').empty();
+    }
+}, 2000);
 
-}
- 
+    }
+
 
     $( document ).ready(function() {
 
-
     	displayUser();
-
-	// // SEARCH BAR
-	// $("#search-submit").on("click", function() {
-
-	// 	var searchTerm = $("#search-input").val();
-	// 	var marvelSearch = "https://gateway.marvel.com/v1/public/characters?name=" + searchTerm + "&ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
-	// 	console.log($("#search-input").val());
-	// 	$("#search-input").val('');
-	// 	var searched = $("#search-input").val();
-
-	// 	$.ajax({
-	// 		url: marvelSearch,
-	// 		method: 'GET'
-	// 	})
-	// 	.done(function(response){
-	// 		console.log(response);
-	// 	});
- //        // End Ajax
- //    });
-
 
     // ============================
     //   Signout Button
@@ -555,6 +507,7 @@ setTimeout (function() {
 
         // Sign-out successful.
         console.log("Signed out");
+        favorites = [];
         displayUser();
 
     }, function(error) {
@@ -567,10 +520,6 @@ setTimeout (function() {
 
    	});//End Signout
 
-
-
-
-
     // ============================
     //   Click function To pop up login
     // ============================
@@ -580,10 +529,9 @@ setTimeout (function() {
     	$('body').prepend('<div class="pop-back"></div>');
     	$('.pop-back').html('<div class= "pop-form"></div>');
 
-       	$('.pop-form').html("<div class='jumbotron form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
+    	$('.pop-form').html("<div class='jumbotron form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
 
     	$('.pop-form').html("<div class='form-group'><span class='input-group-addon' id='basic-addon1'>Email</span><input type='email' class='form-control' aria-describedby='basic-addon1' id='login-email'><span class='input-group-addon' id='basic-addon2'>Password</span><input type='password' class='form-control' aria-describedby='basic-addon2' id='login-password'><button type='submit' id='submit-log'>Enter Lair</button></div>");
-
 
 		//Click outside to make box disappear
 		$('body').click(function(e){
@@ -599,19 +547,14 @@ setTimeout (function() {
 			} 
 		})
 
-
 		 //End Click out to close login
 		}); //End Login Pop up
-
-
 
 	   	// ============================
        	//   Click function To pop up register
        	// ============================
 
        	$("[href='#Register-form']").on('click', function(){
-
-
 
        		$('body').prepend('<div class="pop-back"></div>');
        		$('.pop-back').html('<div class= "pop-form"></div>');
@@ -627,9 +570,6 @@ setTimeout (function() {
 				else {
 					return false;
 				}
-			})
+			});
 		});
-
-
        });
-
