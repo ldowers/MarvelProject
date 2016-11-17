@@ -51,13 +51,13 @@ right: 	10%
 }
 
 .pop-form {
-	width:50%;
-	margin:auto;
-	text-align:center;
-	background:#56876b;
-	box-shadow:0px 0px 5px 5px rgba(0, 0, 0, 0.3);
-	padding:50px;
-	margin-top:200px
+	width: 50%;
+    margin: auto;
+    text-align: center;
+    background: #2a77ca;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+    padding: 6px;
+    margin-top: 200px;
 }
 
 #location-pick {
@@ -71,13 +71,20 @@ right: 	10%
 }
 
 #submit-reg, #submit-log {
-	width:100%;
+	width:70%;
 	padding:10px;
-	background:#56876b;
+	background:#b2e4c8;
 	font-weight:500;
 	font-size:25px;
 	color:#3f634f;
-	transition:all 0.5s
+	transition:all 0.5s;
+	margin-top:10px;
+	border-radius: 10px;
+
+}
+
+#basic-addon2{
+	margin-top: 10px;
 }
 
 #submit-reg:hover, #submit-log:hover {

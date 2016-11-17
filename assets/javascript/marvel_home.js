@@ -469,6 +469,16 @@ $('body').on('click', '#submit-log', function(){
         		// Handle Errors here.
         		var errorCode = error.code;
         		var errorMessage = error.message;
+
+if ( errorCode == "uth/wrong-password" || errorCode == "auth/user-not-found") {
+
+	 $('#myModal').modal();
+	 $(".modal-title").html("Try again");
+
+	$(".modal-body").html("Wrong email or password");
+
+}
+        		console.log(errorCode);
        		}); //End Sign in with Email
 
        		$(".pop-back").remove();
