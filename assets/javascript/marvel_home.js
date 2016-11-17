@@ -29,6 +29,8 @@ var character = {
 	image : null
 }
 
+var renderButtonState = false;
+
 // ========================================================
 
 // Database Reference Handlers
@@ -44,6 +46,7 @@ $(document).ready(function() {
 			favoritesObject = snapshot;
 
 			renderButtons();
+			renderButtonState = true;
 		}
 	});
 });
@@ -62,7 +65,7 @@ function renderButtons() {
 	if (currentUser != null) {
 
 		// Get user's favorites from database
-		favorites = getFavorites();	
+		favorites = getFavorites();
 	}
 
 	console.log("Render Buttons: " + favorites);
@@ -322,12 +325,7 @@ $(document).on('click', '.delete', removeFavorite);
 
 // ========================================================
 
-// This calls the renderButtons() function
-// renderButtons();
-
-
 //================================================================================================= Mitchels Code For Login, Sign up, Sending Verifying Emails, Saving characters to User
-
 
 //FIREBASE
 
@@ -363,7 +361,6 @@ function createUser() {
 				"uid": userUID
 			}];
 			database.ref('/users').push(userArray);
-
 		});
 
 		$(".pop-back").remove();
@@ -467,30 +464,26 @@ $('body').on('click', '#submit-log', function(){
 
     	setTimeout (function() {
     		if (firebase.auth().currentUser != null ) {
-    	//	alert(firebase.auth().currentUser.displayName);
-    	$("#registerID").hide();
-    	$("#loginID").hide();
-    	$("#logoutID").show();
-    	$("#nameID").html(firebase.auth().currentUser.displayName);
-    	if (favoritesObject != "") {
-    		renderButtons();
-    	}
+    			$("#registerID").hide();
+    			$("#loginID").hide();
+    			$("#logoutID").show();
+    			$("#nameID").html(firebase.auth().currentUser.displayName);
+    			if (favoritesObject != "" && renderButtonState == false) {
+    				renderButtons();
+    			}
+    		}
+    		else{
+    			$("#registerID").show();
+    			$("#loginID").show();
+    			$("#logoutID").hide();
+    			$("#nameID").html("");
+    			$("#buttonView").empty();
+    			$(".carousel-inner").empty();
+    			$('#moviegifsAppearHere').empty();
+    			renderButtonState = false;
+    		}
+    	}, 2000);
     }
-
-    else{
-    	//	alert("No user in firebase");
-    	$("#registerID").show();
-    	$("#loginID").show();
-    	$("#logoutID").hide();
-    	$("#nameID").html("");
-    	$("#buttonView").empty();
-    	$(".carousel-inner").empty();
-    	$('#moviegifsAppearHere').empty();
-    }
-}, 2000);
-
-    }
-
 
     $( document ).ready(function() {
 
