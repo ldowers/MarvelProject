@@ -7,6 +7,8 @@ var comicID = id;
 var api = "?ts=1478356491&apikey=6cc069598783b79627fb5a9f9e9ae0d1&hash=974b8d2e4b79defb4d3d7ecadf1ae1ad";
 var con_comics = { url: "https://gateway.marvel.com/v1/public/comics/" + comicID + api, method: "GET" };
 
+
+var descp;
 // Get Comic
 $.ajax(con_comics).done(response);
 
@@ -20,10 +22,10 @@ var title = res.data.results[0].title;
 	$(".poster").attr("src", img);
 
 	// Display description for Comic
-	$(".desc").addClass("jumbotron");
+	$(".desc").addClass("jumbotron max");
 	$(".desc").html("<h2>" + title + "</h2>");
-	$(".desc").append(res.data.results[0].description);
-
+	$(".desc").append(res.data.results[0].description.substring(0, 400) +" ..." + "<a id='seemore' data-toggle='modal' data-target='#myModal'>See More</a>");
+descp = res.data.results[0].description;
 	// Create div for Comic Price button
 	var priceDiv = $("<div>");
 	priceDiv.addClass("btn btn-primary price");
@@ -36,11 +38,25 @@ var title = res.data.results[0].title;
 	// Create div for Marvel link to buy Comic
 	if (res.data.results[0].urls[1]) {
 		var divPurchase = $("<a>");
-		divPurchase.attr("href",res.data.results[0].urls[1].url.replace("http", "https") );
-		divPurchase.text("purchase");
+		divPurchase.addClass(" purchase btn btn-primary")
+		divPurchase.attr("href",res.data.results[0].urls[0].url.replace("http", "https") );
+		divPurchase.text("Marvel");
+
+		var amazonPurchase = $("<a>");
+		amazonPurchase.addClass("purchase btn btn-primary");
+		var amazon =  "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=";
 		
-		//$(".purchase").append(divPurchase);
-		$(".desc").append(divPurchase);
+		amazon = amazon + title;
+		 amazon = amazon.replace(/ /g, "+");
+		//amazon = " ";
+		amazonPurchase.attr("href", amazon + "comics" );
+		console.log("ok"+amazon + "comics");
+		amazonPurchase.text("Amazon");
+
+
+		$(".desc").append("<h3>Buy</h3> ");
+	$(".desc").append(divPurchase);
+	$(".desc").append(amazonPurchase);
 
 		console.log("ok"+amazon + title.replace(" ","+") + "comics");
 	}
@@ -106,3 +122,9 @@ function showCharacters (res) {
 	// Display character div
 	$(".characters").append(div);
 }
+
+
+$("body").on("click", '#seemore', function() {
+$(".modal-body").html(descp);
+console.log(descp);
+	});

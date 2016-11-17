@@ -13,6 +13,10 @@ body {
 	margin-top: 50px;
 }
 
+.max{
+	height: 55%;
+}
+
 .poster {
 	position: absolute;
 	top: 80px; right: 70%;
