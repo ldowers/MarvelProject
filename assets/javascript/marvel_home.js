@@ -68,7 +68,7 @@ function renderButtons() {
 			var i =0;
 
 			character.id = results[i].id;
-			character.name = results[i].name;
+			character.name = results[i].name.substring(0, 15);
 			character.image = results[i].thumbnail.path.replace("http", "https") + "/portrait_xlarge." +results[i].thumbnail.extension;
 
 			var gifDiv = $('<div class="item">');
