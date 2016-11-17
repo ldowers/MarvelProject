@@ -53,6 +53,7 @@ body {
 
 .div-char {
 	float: left;
+	text-align: center;
 }
 
 .characters {
